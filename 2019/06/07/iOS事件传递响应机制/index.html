@@ -7,11 +7,11 @@
 
     
 
-    <title>Category: front-end | Hexo</title>
+    <title>iOS事件传递响应机制 | Hexo</title>
     <meta name="author" content="John Doe">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content>
+    <meta name="description" content="#前言：按照时间顺序，事件的生命周期是这样的：　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&amp;gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）　　　　其中重点和难点是：　　1.如何寻找最合适的view　　　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现）　　　　#（一）iOS中的事件　　　　iOS中的事件可以分为3大类型：　　　　- 触摸事...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -41,7 +41,7 @@
                 <span class="nav-text">首页</span>
             </a>
         
-            <a class="nav-item active" href="/categories/front-end">
+            <a class="nav-item" href="/categories/front-end">
                 <span class="nav-text">前端</span>
             </a>
         
@@ -73,6 +73,8 @@
     <div id="aside-inner" class="aside-inner">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
 
+        
+        
         
         
 
@@ -113,17 +115,16 @@
 
 </header>
 
-        <div id="content" class="content">
-    <article class="article" itemscope itemprop="blogPost">
+        <div id="content" class="content"><article class="article" itemscope itemprop="blogPost">
     
     <header class="article-header">
         
         <h1 itemprop="name">
-            <a href="/2019/06/07/iOS事件传递响应机制/">iOS事件传递响应机制</a>
+            iOS事件传递响应机制
         </h1>
         
         <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/front-end/index.html">
+            <a class="article-date" href="http://yoursite.com/2019/06/07/iOS事件传递响应机制/index.html">
     
     <i class="icon-calendar"></i>
     
@@ -167,59 +168,25 @@
 </article>
 
 
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/07/hello-world/">Hexo快速开始</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/front-end/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-07T04:00:00.000Z" itemprop="datePublished">2019-06-07</time>
-</a>
 
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/hexo/">hexo</a>
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "7fbe80427f54741e289f",
+        clientSecret: "f34ed5fd92e54c9000bd37ba951948cb939deff5",
+        repo: "wsv587.github.io",
+        owner: "wsv587",
+        admin: ["wsv587"],
+        id: "2019/06/07/iOS事件传递响应机制",
+        distractionFreeMode: true,
+        title: "iOS事件传递响应机制",
+        body: "http://yoursite.com/2019/06/07/iOS事件传递响应机制/",
+        labels: ["iOS"]
+    }).render('comments');
+    </script>
 </div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<hr>
-<p>主题网站：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a><br>好的主题：<br>Concise：  <a href="https://sanonz.github.io/2018/redux-store-provider-example/" target="_blank" rel="noopener">https://sanonz.github.io/2018/redux-store-provider-example/</a><br>Ocean: <a href="https://zhwangart.github.io/" target="_blank" rel="noopener">https://zhwangart.github.io/</a> 数学家<br>Only: Only跳转github的功能很赞 <a href="https://lazzzis.moe/hexo-theme-only/" target="_blank" rel="noopener">https://lazzzis.moe/hexo-theme-only/</a><br>Overdose：<a href="https://hyunseob.github.io/" target="_blank" rel="noopener">https://hyunseob.github.io/</a> 带缩略图<br>PureBlue： <a href="https://chorer.github.io/" target="_blank" rel="noopener">https://chorer.github.io/</a><br>Sw-blog ：<a href="https://bestwing.me/" target="_blank" rel="noopener">https://bestwing.me/</a><br>gstyle： <a href="http://wayou.github.io/hexo-theme-gstyle/public/" target="_blank" rel="noopener">http://wayou.github.io/hexo-theme-gstyle/public/</a> 可以带目录<br>BMW ：<a href="https://godbmw.com/theme-bmw/" target="_blank" rel="noopener">https://godbmw.com/theme-bmw/</a> 带背景音乐<br>CleanBlog ：<a href="http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/" target="_blank" rel="noopener">http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/</a><br>Cactus： <a href="https://probberechts.github.io/hexo-theme-cactus/" target="_blank" rel="noopener">https://probberechts.github.io/hexo-theme-cactus/</a> 黑白灰主题色</p>
-<p>使用hexo搭建个人博客网站最完整详细教程 <a href="https://blog.csdn.net/wistbean/article/details/82291124" target="_blank" rel="noopener">https://blog.csdn.net/wistbean/article/details/82291124</a></p>
-<p>hexo搭建个人博客完整版 <a href="https://www.jianshu.com/p/40a497e9a6eb" target="_blank" rel="noopener">https://www.jianshu.com/p/40a497e9a6eb</a></p>
-
-        
-    </section>
-</article>
-
-
-
-
 
 </div>
         <footer class="footer">
@@ -281,6 +248,11 @@
         }
     });
     </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
     
 
 </body>
