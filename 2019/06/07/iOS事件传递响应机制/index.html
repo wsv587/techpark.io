@@ -11,7 +11,7 @@
     <meta name="author" content="John Doe">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content="[TOC]前言按照时间顺序，事件的生命周期是这样的：　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&amp;gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）　　　　其中重点和难点是：　　1.如何寻找最合适的view　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现） 　　（一）iOS中的事件iOS中的事件可以分为3大类型：触摸事件加速计事...">
+    <meta name="description" content="[toc]前言按照时间顺序，事件的生命周期是这样的：　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&amp;gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）　　　　其中重点和难点是：　　1.如何寻找最合适的view　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现） 　　（一）iOS中的事件iOS中的事件可以分为3大类型：触摸事件加速计事...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -114,7 +114,7 @@
     
     <section class="article-body markdown-body">
         
-        <p>[TOC]</p>
+        <p>[toc]</p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>按照时间顺序，事件的生命周期是这样的：<br>　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）<br>　　<br>　　其中重点和难点是：<br>　　1.如何寻找最合适的view<br>　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现） 
 　　</p>
 <h1 id="（一）iOS中的事件"><a href="#（一）iOS中的事件" class="headerlink" title="（一）iOS中的事件"></a>（一）iOS中的事件</h1><p>iOS中的事件可以分为3大类型：</p>
