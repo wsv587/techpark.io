@@ -124,6 +124,128 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2019/06/11/CocoaPods之PodfilePodfile-lock/">CocoaPods之Podfile\Podfile.lock</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-11T14:39:26.000Z" itemprop="datePublished">2019-06-11</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/cocoapods/">cocoapods</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="什么是Podfile"><a href="#什么是Podfile" class="headerlink" title="什么是Podfile ?"></a>什么是Podfile ?</h1><p>CocoaPods是用ruby实现的，因此Podfile文件的语法就是ruby的语法。<br>podfile是一个说明文件，用以描述管理一个或者多个Xcode project的target的依赖库。这个文件应该且必须被命名为<code>Podfile</code>。
+Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个target:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target 'MyApp' do </span><br><span class="line">use_frameworks! </span><br><span class="line">pod 'Alamofire', '~&gt; 3.0'</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>下面是一个更复杂的例子，Podfile链接了app和它的测试bundle: </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">source 'https://github.com/CocoaPods/Specs.git'</span><br><span class="line">source 'https://github.com/Artsy/Specs.git'</span><br><span class="line"></span><br><span class="line">platform :ios, '9.0'</span><br><span class="line">inhibit_all_warnings!</span><br><span class="line"></span><br><span class="line">target 'MyApp' do</span><br><span class="line">pod 'GoogleAnalytics', '~&gt; 3.1'</span><br><span class="line"><span class="meta"># Has its own copy of OCMock </span></span><br><span class="line"><span class="meta"># and has access to GoogleAnalytics via the app </span></span><br><span class="line"><span class="meta"># that hosts the test target</span></span><br><span class="line"></span><br><span class="line">target 'MyAppTests' do </span><br><span class="line">inherit! :search_paths </span><br><span class="line">pod 'OCMock', '~&gt; 2.0.1' </span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">post_install <span class="keyword">do</span> |installer|</span><br><span class="line">installer.pods_project.targets.each <span class="keyword">do</span> |target| </span><br><span class="line">puts target.name </span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>如果你希望多个target共享同一个pods，那么可以用关键字<code>abstract_target</code>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># There are no targets called <span class="meta-string">"Shows"</span> in any Xcode projects</span></span><br><span class="line">abstract_target 'Shows' do </span><br><span class="line">pod 'ShowsKit' </span><br><span class="line">pod 'Fabric'</span><br><span class="line"></span><br><span class="line"><span class="meta"># Has its own copy of ShowsKit + ShowWebAuth</span></span><br><span class="line">target 'ShowsiOS' do </span><br><span class="line">pod 'ShowWebAuth' </span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"><span class="meta"># Has its own copy of ShowsKit + ShowTVAuth </span></span><br><span class="line">target 'ShowsTV' do </span><br><span class="line">pod 'ShowTVAuth' </span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>Podfile中自带一个隐藏的、默认的<code>abstract target</code>，所以你也可以用如下的方式达到上面例子的同样效果：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pod 'ShowsKit'</span><br><span class="line">pod 'Fabric'</span><br><span class="line"></span><br><span class="line"><span class="meta"># Has its own copy of ShowsKit + ShowWebAuth</span></span><br><span class="line">target 'ShowsiOS' do </span><br><span class="line">pod 'ShowWebAuth'</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"><span class="meta"># Has its own copy of ShowsKit + ShowTVAuth</span></span><br><span class="line">target 'ShowsTV' do </span><br><span class="line">pod 'ShowTVAuth'</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h1 id="指定pod版本"><a href="#指定pod版本" class="headerlink" title="指定pod版本"></a>指定pod版本</h1><p>当开始一个项目,你可能会想要使用最新版本的pod依赖库。 如果是这种情况,只需忽略版本要求。 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod 'SSZipArchive'</span><br></pre></td></tr></table></figure>
+
+<p>稍后在项目您可能想要使用特定版本的pod依赖库,在这种情况下,您可以指定版本号。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod 'Objection', '0.9'</span><br></pre></td></tr></table></figure>
+
+<p>除了没有版本,或特定的一个,也可以使用逻辑运算符: </p>
+<ul>
+<li>‘&gt; 0.1’ 高于0.1的任何版本</li>
+<li>‘&gt;= 0.1’ 版本0.1或更高版本</li>
+<li>‘&lt; 0.1’ 低于0.1的任何版本</li>
+<li>‘&lt;= 0.1’ 版本0.1或更低的版本</li>
+</ul>
+<p>除了逻辑运算符，还有一种运算符：</p>
+<ul>
+<li>‘~&gt; 0.1.2’ 版本0.1.2和0.2版本之间的任意版本,不包括0.2和比0.2更高的版本</li>
+<li>‘~&gt; 0.1’ 版本0.1和版本1.0之间的任意版本,不包括1.0和比1.0更高的版本</li>
+<li>‘~&gt; 0’ 版本0或比版本0更高的版本,这基本上和不指定版本号的效果是一样的。</li>
+</ul>
+<h2 id="使用本地文件夹内的依赖库"><a href="#使用本地文件夹内的依赖库" class="headerlink" title="使用本地文件夹内的依赖库"></a>使用本地文件夹内的依赖库</h2><p>如果你想建立一个本地依赖库和项目之间的关系，即项目依赖本地文件夹的某个依赖库，可以用关键字<code>path</code>：</p>
+<blockquote>
+<p>pod ‘Alamofire’, :path =&gt; ‘~/Documents/Alamofire’</p>
+</blockquote>
+<h3 id="使用podspec更新依赖库"><a href="#使用podspec更新依赖库" class="headerlink" title="使用podspec更新依赖库"></a>使用podspec更新依赖库</h3><p>使用仓库的master分支：</p>
+<blockquote>
+<p>pod ‘Alamofire’, :git =&gt; ‘<a href="https://github.com/Alamofire/Alamofire.git&#39;" target="_blank" rel="noopener">https://github.com/Alamofire/Alamofire.git&#39;</a></p>
+</blockquote>
+<p>使用仓库中其他的分支：</p>
+<blockquote>
+<p>pod ‘Alamofire’, :git =&gt; ‘<a href="https://github.com/Alamofire/Alamofire.git&#39;" target="_blank" rel="noopener">https://github.com/Alamofire/Alamofire.git&#39;</a></p>
+</blockquote>
+<p>使用指定tag的分支：</p>
+<blockquote>
+<p>pod ‘Alamofire’, :git =&gt; ‘<a href="https://github.com/Alamofire/Alamofire.git&#39;" target="_blank" rel="noopener">https://github.com/Alamofire/Alamofire.git&#39;</a>, :tag =&gt; ‘3.1.1’</p>
+</blockquote>
+<p>或者使用指定commit号的版本：</p>
+<blockquote>
+<p>pod ‘Alamofire’, :git =&gt; ‘<a href="https://github.com/Alamofire/Alamofire.git&#39;" target="_blank" rel="noopener">https://github.com/Alamofire/Alamofire.git&#39;</a>, :commit =&gt; ‘0f506b1c45’</p>
+</blockquote>
+<p>使用<code>path</code>将把本地文件夹作为pod依赖库的源，并且将会直接从给定的文件夹中把pod依赖库链接进pod项目。这意味着我们对这个本地文件夹的编辑与修改将会被pod直接更新。</p>
+<p>source  ‘URL’ ： 指定镜像仓库的源<br>platform : ios,  ‘6.0’  ： 指定所支持系统和最低版本<br>inhibit_all_warnings! ：屏蔽所有warning<br>workspace ‘项目空间名’： 指定项目空间名<br>xcodeproj ‘工程文件名’：指定xcodeproj工程文件名</p>
+<p>~ &gt;  :  从指定版本到倒数第二位版本号升1为止，比如 ‘<del>&gt; 1.2.1’是指  1.2.1 &lt;= 版本 &lt; 1.3.0。’</del>&gt;1.2’是指1.2&lt;= 版本 &lt; 2.0</p>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pod 'AFNetworking'      //不显式指定依赖库版本，表示每次都获取最新版本  </span><br><span class="line">pod 'AFNetworking', '2.0'     //只使用2.0版本  </span><br><span class="line">pod 'AFNetworking', '&gt; 2.0'     //使用高于2.0的版本  </span><br><span class="line">pod 'AFNetworking', '&gt;= 2.0'     //使用大于或等于2.0的版本  </span><br><span class="line">pod 'AFNetworking', '&lt; 2.0'     //使用小于2.0的版本  </span><br><span class="line">pod 'AFNetworking', '&lt;= 2.0'     //使用小于或等于2.0的版本  </span><br><span class="line">pod 'AFNetworking', '~&gt; 0.1.2'     //使用大于等于0.1.2但小于0.2的版本  </span><br><span class="line">pod 'AFNetworking', '~&gt;0.1'     //使用大于等于0.1但小于1.0的版本  </span><br><span class="line">pod 'AFNetworking', '~&gt;0'     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本</span><br></pre></td></tr></table></figure>
+
+<h2 id="CocoaPods-pod-install-pod-update更新慢的问题"><a href="#CocoaPods-pod-install-pod-update更新慢的问题" class="headerlink" title="CocoaPods pod install/pod update更新慢的问题"></a>CocoaPods pod install/pod update更新慢的问题</h2><p>/默认执行pod install 或者 pod update命令，会更新远程cocopodsde spec库。所以导致命令执行的比较慢，我们可以采用以下命令来提高更新速度，不更新CocoaPods的spec仓库直接install/update。<br>pod update –verbose –no-repo-update<br>pod install –verbose –no-repo-update</p>
+<h1 id="Podfile和Target"><a href="#Podfile和Target" class="headerlink" title="Podfile和Target"></a>Podfile和Target</h1><p>Podfile本质上是用来描述Xcode工程中的targets用的。如果我们不显式指定Podfile对应的target，CocoaPods会创建一个名称为default的隐式target，会和我们工程中的第一个target相对应。换句话说，如果在Podfile中没有指定target，那么只有工程里的第一个target能够使用Podfile中描述的Pods依赖库。</p>
+<h2 id="项目存在多Target情况"><a href="#项目存在多Target情况" class="headerlink" title="项目存在多Target情况"></a>项目存在多Target情况</h2><p>项目存在多个Target的时候，需要配置Podfile文件来支持新增加的Target，否则只支持项目默认建立时生成的Target：</p>
+<h3 id="a-多个Target使用相同的pods依赖库"><a href="#a-多个Target使用相同的pods依赖库" class="headerlink" title="a.多个Target使用相同的pods依赖库"></a>a.多个Target使用相同的pods依赖库</h3><p>a、默认新建的项目只有一个target，但是我们可以给项目天阿基额外的target。如果项目中存在多个target，且两个Target所依赖的的第三方库完全相同，则可以使用<br><code>link_with</code>关键字,将Podfile写成如下方式：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">link_with 'CocoaPodsTest', 'Second'  </span><br><span class="line">platform :ios  </span><br><span class="line">platform :ios, ‘<span class="number">9.0</span>’    </span><br><span class="line">pod 'AFNetworking', '~&gt; 2.0'</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">link_with 'CocoaPodsTest', 'Second'  </span><br><span class="line">platform :ios    </span><br><span class="line">pod 'Reachability',  '~&gt; 3.0.0'    </span><br><span class="line">pod 'SBJson', '~&gt; 4.0.0'    </span><br><span class="line"></span><br><span class="line">platform :ios, '7.0'    </span><br><span class="line">pod 'AFNetworking', '~&gt; 2.0'</span><br></pre></td></tr></table></figure>
+
+<p>如果你按照上面的写法编辑Podfile，然后执行pod undate 或pod install，你会发现以下的错误：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1055199-ea6a45d3bebee5ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20161204_1.png"><br>意思是<code>link_with</code>关键字已经过期，现在不在支持，我们需要用target blocks来代替<code>link_with</code>。查看官方文档，如下：<br><img src="http://upload-images.jianshu.io/upload_images/1055199-f233959a119a7749.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20161204_3.png"></p>
+<p>所以，我们可以通过<code>abstract_target</code>和target继承的方式代替<code>link_with</code>.</p>
+<h3 id="b-多个的Target需要不同的依赖库"><a href="#b-多个的Target需要不同的依赖库" class="headerlink" title="b.多个的Target需要不同的依赖库"></a>b.多个的Target需要不同的依赖库</h3><p>如果不同的target使用不同的依赖库，则可以:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">platform :ios  </span><br><span class="line">target :'Test' do  </span><br><span class="line">pod 'Reachability'  </span><br><span class="line">pod 'SBJson'     </span><br><span class="line">pod 'AFNetworking'   </span><br><span class="line">end    </span><br><span class="line"></span><br><span class="line">target :'Second' do  </span><br><span class="line">pod 'OpenUDID'   </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h3 id="inhibit-all-warnings-的作用"><a href="#inhibit-all-warnings-的作用" class="headerlink" title="inhibit_all_warnings!的作用"></a>inhibit_all_warnings!的作用</h3><p>用于屏蔽cocoapods库里面的所有警告。<br><img src="http://upload-images.jianshu.io/upload_images/1055199-bf4f8faec53c15cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20161204_2.png"></p>
+<p>这个特性也能在子target里面定义，如果你想屏蔽某pod里面的警告也是可以的:</p>
+<blockquote>
+<p>pod ‘SSZipArchive’, :inhibit_warnings =&gt; true</p>
+</blockquote>
+<h3 id="use-frameworks-的作用"><a href="#use-frameworks-的作用" class="headerlink" title="use_frameworks!的作用"></a>use_frameworks!的作用</h3><p>在pods中用frameworks替代静态库。<br>另，一般开发swift项目时，我们会在podfile中添加这一句。</p>
+<h3 id="podspec文件"><a href="#podspec文件" class="headerlink" title="podspec文件"></a>podspec文件</h3><p>后缀名为podspec（cocoapods specification）的文件是cocoapods的说明文件，该文件为Pods依赖库的描述文件，每个Pods依赖库必须有且仅有那么一个描述文件。该文件包括依赖库的名字、版本、描述、license、author、source、platform等信息。</p>
+<h1 id="什么是Podfile-lock？"><a href="#什么是Podfile-lock？" class="headerlink" title="什么是Podfile.lock？"></a>什么是Podfile.lock？</h1><p>这是 CocoaPods 创建的最重要的文件之一。它记录了需要被安装的 pod 的每个已安装的版本。如果你想知道已安装的 pod 是哪个版本，可以查看这个文件。推荐将 Podfile.lock 文件加入到版本控制中，这有助于整个团队的一致性。<a href="http://www.360doc.cn/article/28838452_585128740.html" target="_blank" rel="noopener">Objc中国</a><br>Podfile.lock文件最大得用处在于多人开发。当团队中的某个人执行完pod install命令后，生成的Podfile.lock文件就记录下了当时最新Pods依赖库的版本，这时团队中的其它人check下来这份包含Podfile.lock文件的工程以后，再去执行pod install命令时，获取下来的Pods依赖库的版本就和最开始用户获取到的版本一致。如果没有Podfile.lock文件，后续所有用户执行pod install命令都会获取最新版本的依赖库，这就有可能造成同一个团队使用的依赖库版本不一致，这对团队协作来说绝对是个灾难！在这种情况下，如果团队想使用当前最新版本的依赖库，有两种方案：</p>
+<ul>
+<li>1.更改Podfile，使其指向最新版本的依赖库；</li>
+<li>2.执行pod update命令；</li>
+</ul>
+<p>当执行pod install 命令时，首先会根据Podfile文件指定的内容，安装依赖库，如果有Podfile.lock文件而且对应的Podfile文件未被修改，则会根据Podfile.lock文件指定的版本安装。<br>每次更新了Podfile文件时，都需要重新执行pod install命令，以便重新安装Pods依赖库。<br>当执行pod update命令时，如果Podfile中指定的依赖库版本不是写死的，当对应的依赖库有了更新，无论有没有Podfile.lock文件，都会去获取Podfile文件描述的允许获取到的最新依赖库版本。</p>
+<p><strong>PS:如非特别说明，所有文章均为原创作品，著作权归作者所有，转载请联系作者获得授权，并注明出处!</strong></p>
+<p>如果您是iOS开发者，或者对本篇文章感兴趣，请关注本人，后续会更新更多相关文章！敬请期待！</p>
+<p>参考链接：<br><a href="http://www.jianshu.com/p/8af475c4f717" target="_blank" rel="noopener">Podfile语法参考（译）</a><br><a href="http://www.jianshu.com/p/3b6398f63e92" target="_blank" rel="noopener">Cocoapods的Podfile常见语法总结</a><br><a href="http://blog.csdn.net/wzzvictory/article/details/18737437" target="_blank" rel="noopener">CocoaPods详解之—-使用篇 </a><br><a href="http://blog.csdn.net/wzzvictory/article/details/19178709" target="_blank" rel="noopener">CocoaPods详解之—-进阶篇 </a><br><a href="http://blog.csdn.net/wzzvictory/article/details/20067595" target="_blank" rel="noopener">CocoaPods详解之—-制作篇</a><br><a href="http://blog.csdn.net/wsh7365062/article/details/46991159" target="_blank" rel="noopener">CocoaPods安装和使用教程以及一些常见问题 </a><br><a href="http://www.jianshu.com/p/db158239f3a4" target="_blank" rel="noopener">如何制作自己的Pod库</a><br><a href="http://guides.cocoapods.org/using/the-podfile.html" target="_blank" rel="noopener">The Podfile(英)</a><br><a href="http://www.jianshu.com/p/8af475c4f717" target="_blank" rel="noopener">Podfile语法参考（译）</a><br><a href="http://blog.csdn.net/marcus2006/article/details/18566953" target="_blank" rel="noopener">(实验)Podfile的target与link_with </a><br><a href="http://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="noopener">Podfile Syntax Reference（英）</a><br><a href="http://guides.cocoapods.org/syntax/podfile.html#pre_install" target="_blank" rel="noopener">Podfile Syntax Reference(英)</a></p>
+
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2019/06/11/cocoapods从安装到使用/">cocoapods从安装到使用</a>
         </h1>
         
