@@ -7,7 +7,7 @@
 
     
 
-    <title>Archives: 2019/6 | 技术线博客</title>
+    <title>Category: iOS | 技术线博客</title>
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
@@ -41,7 +41,7 @@
                 <span class="nav-text">首页</span>
             </a>
         
-            <a class="nav-item" href="/categories/iOS">
+            <a class="nav-item active" href="/categories/iOS">
                 <span class="nav-text">iOS</span>
             </a>
         
@@ -57,7 +57,7 @@
                 <span class="nav-text">标签</span>
             </a>
         
-            <a class="nav-item active" href="/archives">
+            <a class="nav-item" href="/archives">
                 <span class="nav-text">归档</span>
             </a>
         
@@ -118,105 +118,56 @@
 </header>
 
         <div id="content" class="content">
-
-
+    <article class="article" itemscope itemprop="blogPost">
     
-    
-    
-    
-    
-    <section class="archives-wrap">
-    <div class="archive-year-wrap">
-    <a href="/archives/2019/06" class="page-hd">
-        2019/06
-    </a>
-    </div>
-    <ol class="archives">
-    
-
-    <li class="archive-section-item">
+    <header class="article-header">
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/2019/06/11/back-end-placeholder/">back-end-placeholder</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/archives/2019/06">
-    
-    <time datetime="2019-06-11T01:13:18.000Z" itemprop="datePublished">6/11</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
+        <h1 itemprop="name">
+            <a href="/2019/06/07/iOS事件传递响应机制/">iOS事件传递响应机制</a>
+        </h1>
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/2019/06/07/iOS事件传递响应机制/">iOS事件传递响应机制</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/archives/2019/06">
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
     
-    <time datetime="2019-06-07T07:47:16.000Z" itemprop="datePublished">6/7</time>
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-07T07:47:16.000Z" itemprop="datePublished">2019-06-07</time>
 </a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
 
-    
-    
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/前端/">前端</a>
+</div>
 
-    <li class="archive-section-item">
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/2019/06/07/hello-world/">Hexo快速开始</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/archives/2019/06">
-    
-    <time datetime="2019-06-07T04:00:00.000Z" itemprop="datePublished">6/7</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
+        <p>[toc]</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>按照时间顺序，事件的生命周期是这样的：<br>　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）<br>　　<br>　　其中重点和难点是：<br>　　1.如何寻找最合适的view<br>　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现） 
+　　</p>
+<h1 id="（一）iOS中的事件"><a href="#（一）iOS中的事件" class="headerlink" title="（一）iOS中的事件"></a>（一）iOS中的事件</h1><p>iOS中的事件可以分为3大类型：</p>
+<ul>
+<li>触摸事件</li>
+<li>加速计事件</li>
+<li>远程控制事件<br>这里我们只讨论iOS中的触摸事件。</li>
+</ul>
         
-<article class="archive-article archive-type-tags">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/2019/06/06/标签/">标签</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/archives/2019/06">
-    
-    <time datetime="2019-06-06T14:41:19.000Z" itemprop="datePublished">6/6</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
+        <p class="article-more-link">
+            <a href="/2019/06/07/iOS事件传递响应机制/#more">
+                <span class="vm">阅读更多</span>
+                <i class="icon-arrow-double-right vm"></i>    
+            </a>
+        </p>
+        
+        
+    </section>
 </article>
-    </li>
 
 
-</ol></section>
 
 
 
