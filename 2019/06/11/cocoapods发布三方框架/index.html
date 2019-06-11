@@ -7,11 +7,11 @@
 
     
 
-    <title>Category: iOS | 技术线博客</title>
+    <title>cocoapods发布三方框架 | 技术线博客</title>
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content>
+    <meta name="description" content="你如果在开发iOS项目中你使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！后续更新中…">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -41,7 +41,7 @@
                 <span class="nav-text">首页</span>
             </a>
         
-            <a class="nav-item active" href="/categories/iOS">
+            <a class="nav-item" href="/categories/iOS">
                 <span class="nav-text">iOS</span>
             </a>
         
@@ -77,6 +77,8 @@
     <div id="aside-inner" class="aside-inner">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
 
+        
+        
         
         
 
@@ -118,17 +120,16 @@
 
 </header>
 
-        <div id="content" class="content">
-    <article class="article" itemscope itemprop="blogPost">
+        <div id="content" class="content"><article class="article" itemscope itemprop="blogPost">
     
     <header class="article-header">
         
         <h1 itemprop="name">
-            <a href="/2019/06/11/cocoapods发布三方框架/">cocoapods发布三方框架</a>
+            cocoapods发布三方框架
         </h1>
         
         <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+            <a class="article-date" href="http://yoursite.com/2019/06/11/cocoapods发布三方框架/index.html">
     
     <i class="icon-calendar"></i>
     
@@ -148,157 +149,34 @@
     <section class="article-body markdown-body">
         
         <p>你如果在开发iOS项目中你使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！</p>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/11/cocoapods发布三方框架/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
+<a id="more"></a>
+
+<p>后续更新中…</p>
+
         
     </section>
 </article>
 
 
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/11/CocoaPods之PodfilePodfile-lock/">CocoaPods之Podfile\Podfile.lock</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-11T14:39:26.000Z" itemprop="datePublished">2019-06-11</time>
-</a>
 
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/cocoapods/">cocoapods</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "7fbe80427f54741e289f",
+        clientSecret: "f34ed5fd92e54c9000bd37ba951948cb939deff5",
+        repo: "wsv587.github.io",
+        owner: "wsv587",
+        admin: ["wsv587"],
+        id: "2019/06/11/cocoapods发布三方框架",
+        distractionFreeMode: true,
+        title: "cocoapods发布三方框架",
+        body: "http://yoursite.com/2019/06/11/cocoapods发布三方框架/",
+        labels: ["cocoapods","iOS"]
+    }).render('comments');
+    </script>
 </div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <h1 id="什么是Podfile"><a href="#什么是Podfile" class="headerlink" title="什么是Podfile ?"></a>什么是Podfile ?</h1><p>CocoaPods是用ruby实现的，因此Podfile文件的语法就是ruby的语法。<br>podfile是一个说明文件，用以描述管理一个或者多个Xcode project的target的依赖库。这个文件应该且必须被命名为<code>Podfile</code>。
-Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个target:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target 'MyApp' do </span><br><span class="line">use_frameworks! </span><br><span class="line">pod 'Alamofire', '~&gt; 3.0'</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/11/CocoaPods之PodfilePodfile-lock/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/11/cocoapods从安装到使用/">cocoapods从安装到使用</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-11T14:30:40.000Z" itemprop="datePublished">2019-06-11</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/cocoapods/">cocoapods</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <h1 id="什么是cocoapods"><a href="#什么是cocoapods" class="headerlink" title="什么是cocoapods"></a>什么是cocoapods</h1><p>CocoaPods是一个用来帮助我们管理第三方依赖库的工具。它可以解决库与库之间的依赖关系，下载库的源代码，同时通过创建一个Xcode的workspace来将这些第三方库和我们的工程连接起来，供我们开发使用。这么说可能还不是很理解，当我们开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，A依赖B，B又依赖C……。总之笔者的意思，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本依赖库，然后一个个重新加入到项目中，费时费力，操作繁琐且容易出错。如果能有什么工具能代替我们手工去解决这些依赖和更新问题，那我们开发效率将如有神助。这就是CocoaPods的作用。<br>总而言之，使用CocoaPods的目的是让我们能自动化的、集中的、直观的管理第三方开源库。</p>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/11/cocoapods从安装到使用/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/07/iOS事件传递响应机制/">iOS事件传递响应机制</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-07T07:47:16.000Z" itemprop="datePublished">2019-06-07</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/前端/">前端</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>[toc]</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>按照时间顺序，事件的生命周期是这样的：<br>　　事件的产生和传递（事件如何从父控件传递到子控件并寻找到最合适的view、寻找最合适的view的底层实现、拦截事件的处理）-&gt;找到最合适的view后事件的处理（touches方法的重写，也就是事件的响应）<br>　　<br>　　其中重点和难点是：<br>　　1.如何寻找最合适的view<br>　　2.寻找最合适的view的底层实现（hitTest:withEvent:底层实现） 
-　　</p>
-<h1 id="（一）iOS中的事件"><a href="#（一）iOS中的事件" class="headerlink" title="（一）iOS中的事件"></a>（一）iOS中的事件</h1><p>iOS中的事件可以分为3大类型：</p>
-<ul>
-<li>触摸事件</li>
-<li>加速计事件</li>
-<li>远程控制事件<br>这里我们只讨论iOS中的触摸事件。</li>
-</ul>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/07/iOS事件传递响应机制/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-
-
 
 </div>
         <footer class="footer">
@@ -360,6 +238,11 @@ Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个tar
         }
     });
     </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
     
 
 </body>
