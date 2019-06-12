@@ -11,7 +11,7 @@
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content="如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！后续更新中…">
+    <meta name="description" content="如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！创建模板仓库，命令：1pod lib create 【要创建的私有库名称】创建pod模板仓库，该模板仓库包括一个测试工程和一个podspec描述文件。添加框架文件如果文件...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -150,8 +150,28 @@
         
         <p>如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！</p>
 <a id="more"></a>
+<ol>
+<li>创建模板仓库，命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create 【要创建的私有库名称】</span><br></pre></td></tr></table></figure>
 
-<p>后续更新中…</p>
+</li>
+</ol>
+<p>创建pod模板仓库，该模板仓库包括一个测试工程和一个podspec描述文件。</p>
+<ol start="2">
+<li><p>添加框架文件<br>如果文件已经写好，那么我们只需把代码文件拖拽到Classes文件夹下；如果文件未写好，只需要在Classes文件夹下新建文件即可。</p>
+</li>
+<li><p>文件创建好后，执行 <code>pod install</code> 命令。</p>
+</li>
+<li><p>github创建远程库， 并把我们的模板仓库push到远程。</p>
+</li>
+<li><p>打标签，命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag xxx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>push标签m，命令：</p>
+<pre><code>git push —tags</code></pre></li>
+<li><p>配置podspec文件</p>
+</li>
+</ol>
+<p><code>注意</code>：pod spec文件中的s.version一定要和push的tag一致<br>后续更新中…</p>
 
         
     </section>
