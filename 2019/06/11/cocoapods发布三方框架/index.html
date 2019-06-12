@@ -153,7 +153,7 @@
 <ol>
 <li>创建模板仓库，命令：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create 【要创建的私有库名称】</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create 【要创建的私有库名称】</span><br></pre></td></tr></table></figure>
 
 <p>创建pod模板仓库，该模板仓库包括一个测试工程和一个podspec描述文件。</p>
 <ol start="2">
@@ -166,29 +166,30 @@
 <li><p>打标签，命令：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag xxx</span><br></pre></td></tr></table></figure>
 
 <ol start="6">
-<li>push标签m，命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git push —tags</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">7. 配置podspec文件</span><br><span class="line"></span><br><span class="line">`注意`：pod spec文件中的s.version一定要和刚才打的tag一致。</span><br><span class="line"></span><br><span class="line">8. 执行 lint 检查（可选），命令：</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>push标签，命令：</li>
 </ol>
-<p>pod lib lint</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">该命令会对本地podspec文件的语法和正确性进行检查。</span><br><span class="line"></span><br><span class="line">9. 执行spec 检查（必选），命令：</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git push —tags</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">7. 配置podspec文件</span><br><span class="line"></span><br><span class="line">`注意`：pod spec文件中的s.version一定要和刚才打的tag一致。</span><br><span class="line"></span><br><span class="line">8. 执行 lint 检查（可选），命令：</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">pod lib lint</span><br></pre></td></tr></table></figure>
 
-<p>pod spec lint</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">该命令会检查远程仓库和本地podspec的正确性。所以需要保证网络畅通。如果根据本地的podspec文件的描述和远程的仓库不匹配则检查不通过。</span><br><span class="line"></span><br><span class="line">10. 注册trunk</span><br></pre></td></tr></table></figure>
+<p>该命令会对本地podspec文件的语法和正确性进行检查。</p>
+<ol start="9">
+<li>执行spec 检查（必选），命令：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod spec lint</span><br></pre></td></tr></table></figure>
 
-<p>pod trunk register 邮箱地址 名称 –verbose</p>
-<pre><code>
-例如： pod trunk register wanggyanmo@163.com &apos;wanggyanmo&apos;  --verbose
+<p>该命令会检查远程仓库和本地podspec的正确性。所以需要保证网络畅通。如果根据本地的podspec文件的描述和远程的仓库不匹配则检查不通过。</p>
+<ol start="10">
+<li>注册trunk  </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register 邮箱地址 名称 --verbose</span><br></pre></td></tr></table></figure>
 
-注册后会向我们注册trunk的那个邮箱发送一份邮件。需要登录邮箱进行验证。
+<p>例如： pod trunk register <a href="mailto:wanggyanmo@163.com" target="_blank" rel="noopener">wanggyanmo@163.com</a> ‘wanggyanmo’  –verbose</p>
+<p>注册后会向我们注册trunk的那个邮箱发送一份邮件。需要登录邮箱进行验证。</p>
+<p><code>注意</code>：每次更新pod仓库都要注册trunk，否则会报错。因为涉及到邮箱验证的问题，邮箱验证的目的是为了排除非本人操作，防止他人修改自己的三方库，错误如图：</p>
+<p>后续更新中…</p>
 
-`注意`：每次更新pod仓库都要注册trunk，否则会报错。因为涉及到邮箱验证的问题，邮箱验证的目的是为了排除非本人操作，防止他人修改自己的三方库，错误如图：
-
-
-后续更新中...</code></pre>
         
     </section>
 </article>
@@ -209,7 +210,7 @@
         distractionFreeMode: true,
         title: "cocoapods发布三方框架",
         body: "http://yoursite.com/2019/06/11/cocoapods发布三方框架/",
-        labels: ["iOS","cocoapods"]
+        labels: ["cocoapods","iOS"]
     }).render('comments');
     </script>
 </div>
