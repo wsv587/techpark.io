@@ -11,7 +11,7 @@
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content="前言如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！步骤创建模板仓库1pod lib create 【要创建的私有库名称】该命令是一个交互式命令。执行以上命令会在当前目录生成一个pod模板仓库（其实就是一个Xcode工...">
+    <meta name="description" content="前言如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！步骤创建&amp;amp;上传source文件创建模板仓库1pod lib create 【要创建的私有库名称】该命令是一个交互式命令。执行以上命令会在当前目录生成一个pod...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -83,7 +83,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-amp-上传source文件"><span class="toc-number">2.1.</span> <span class="toc-text">创建&amp;上传source文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置podspec文件"><span class="toc-number">2.2.</span> <span class="toc-text">配置podspec文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发布podspec说明文件"><span class="toc-number">2.3.</span> <span class="toc-text">发布podspec说明文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载-amp-使用三方库"><span class="toc-number">2.4.</span> <span class="toc-text">下载&amp;使用三方库</span></a></li></ol></li></ol>
         
     </div>
 </aside>
@@ -121,7 +121,7 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！</p>
 <a id="more"></a>
 
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="创建-amp-上传source文件"><a href="#创建-amp-上传source文件" class="headerlink" title="创建&amp;上传source文件"></a>创建&amp;上传source文件</h3><ol>
 <li>创建模板仓库</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create 【要创建的私有库名称】</span><br></pre></td></tr></table></figure>
@@ -146,33 +146,50 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push —tags</span><br></pre></td></tr></table></figure>
 
-<ol start="7">
-<li>配置podspec文（Xcode打开podspec文件）<blockquote>
+<h3 id="配置podspec文件"><a href="#配置podspec文件" class="headerlink" title="配置podspec文件"></a>配置podspec文件</h3><ol>
+<li>配置podspec文文件（Xcode打开podspec文件）<blockquote>
 <p>1&gt;修改s.version 为当前tag的版本号<br> 2&gt;修改s.summary<br>3&gt;修改s.description  注：s.description要比s.summary长，否则会警告。<br>4&gt;修改s.homepage  为框架的github地址，例如： <a href="https://github.com/wsv587/Popover" target="_blank" rel="noopener">https://github.com/wsv587/Popover</a><br>5&gt;修改s.license         注：要和创建远程代码仓库时选择的协议一致<br>6&gt;修改s.source        注：pod install 就是根据这个s.source安装的<br>7&gt;修改s.source_files路径   相对podspec的路径<br>8&gt;打开 s.requires_arc = true</p>
 </blockquote>
 </li>
 </ol>
 <p><code>注意</code>：pod spec文件中的s.version一定要和刚才打的tag一致。</p>
-<ol start="8">
+<ol start="2">
 <li>执行 lint 检查（可选），命令：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib lint</span><br></pre></td></tr></table></figure>
 
+<blockquote>
 <p>该命令会对本地podspec文件的语法和正确性进行检查。</p>
-<ol start="9">
-<li>执行spec 检查（必选），命令：</li>
+</blockquote>
+<ol start="3">
+<li>执行spec 检查（必选）</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod spec lint</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod spec lint podspec文件名称</span><br></pre></td></tr></table></figure>
 
-<p>该命令会检查远程仓库和本地podspec的正确性。所以需要保证网络畅通。如果根据本地的podspec文件的描述和远程的仓库不匹配则检查不通过。</p>
-<ol start="10">
+<blockquote>
+<p>该命令会验证podspec文件配置的正确性。包括语法问题、s.source、s.source_files。也可以直接<code>pod spec lint</code> 不需要加podspec文件名称，系统会在当前目录查找podspec文件。如果当前目录不存在podspec文件，则需要指定podspec文件的路径。例如 <code>pod spec lint ../xxx.podspec</code></p>
+</blockquote>
+<p><code>注意</code>：pod spec lint 文件名称 命令是【<strong>进行远程校验</strong>】，所以必须要保证网络已连接<br>（1）校验podspec语法。然后校验s.source对应的链接是否可以访问。<br>（2）如果s.source可以访问，就根据远程podspec 中的s.version 对应的tag找到那个commit。然后，找到那个commit对应的代码校验s.sorce_files。</p>
+<h3 id="发布podspec说明文件"><a href="#发布podspec说明文件" class="headerlink" title="发布podspec说明文件"></a>发布podspec说明文件</h3><p>把pod spec文件上传到cocoapods远程官方索引库。这样其他开发者更新完cocoapods的master仓库后就可以获取到我们的podspec文件。然后就可以根据podspec说明文件中的s.version和s.source以及仓库地址获取到我们发布的source文件。</p>
+<ol>
 <li>注册trunk  </li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register 邮箱地址 名称 --verbose</span><br></pre></td></tr></table></figure>
 
 <p>例如： pod trunk register <a href="mailto:wanggyanmo@163.com" target="_blank" rel="noopener">wanggyanmo@163.com</a> ‘wanggyanmo’  –verbose</p>
+<blockquote>
 <p>注册后会向我们注册trunk的那个邮箱发送一份邮件。需要登录邮箱进行验证。</p>
+</blockquote>
 <p><code>注意</code>：每次更新pod仓库都要注册trunk，否则会报错。因为涉及到邮箱验证的问题，邮箱验证的目的是为了排除非本人操作，防止他人修改自己的三方库，错误如图：</p>
+<ol start="2">
+<li>推送podspec文件到cocoapods远程仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk push podspec文件名称</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p>如果是在podspec当前目录下执行这个命令，可以省略pod spec文件名称。如果当前目录不存在podspec文件，则需要指定podspec文件的路径。例如 <code>pod trunk push ../xxx.podspec</code></p>
+</blockquote>
+<h3 id="下载-amp-使用三方库"><a href="#下载-amp-使用三方库" class="headerlink" title="下载&amp;使用三方库"></a>下载&amp;使用三方库</h3><p>来到这里，如果三方库发布成功，我们就可以通过<code>pod search 仓库名称</code>来搜索到我们发布的仓库。<br>如果没有结果，需要删除~/Library/Caches/CocoaPods下的search_index.json，重新pod search 生成search_index.json(这个过程可能会持续几分钟，请耐心等待)。</p>
 <p>后续更新中…</p>
 
         
