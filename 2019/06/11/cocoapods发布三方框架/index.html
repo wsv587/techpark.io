@@ -144,7 +144,19 @@
 <ol start="6">
 <li>push标签</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">git push —tags</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">7. 配置podspec文（Xcode打开podspec文件）</span><br><span class="line">&gt; 1&gt;修改s.version 为当前tag的版本号</span><br><span class="line">    2&gt;修改s.summary</span><br><span class="line">3&gt;修改s.description  注：s.description要比s.summary长，否则会警告。</span><br><span class="line">4&gt;修改s.homepage  为框架的github地址，例如： https://github.com/wsv587/Popover</span><br><span class="line">5&gt;修改s.license         注：要和创建远程代码仓库时选择的协议一致</span><br><span class="line">6&gt;修改s.source        注：pod install 就是根据这个s.source安装的</span><br><span class="line">7&gt;修改s.source_files路径   相对podspec的路径</span><br><span class="line">8&gt;打开 s.requires_arc = true</span><br><span class="line"></span><br><span class="line">`注意`：pod spec文件中的s.version一定要和刚才打的tag一致。</span><br><span class="line"></span><br><span class="line">8. 执行 lint 检查（可选），命令：</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">pod lib lint</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push —tags</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>配置podspec文（Xcode打开podspec文件）<blockquote>
+<p>1&gt;修改s.version 为当前tag的版本号<br> 2&gt;修改s.summary<br>3&gt;修改s.description  注：s.description要比s.summary长，否则会警告。<br>4&gt;修改s.homepage  为框架的github地址，例如： <a href="https://github.com/wsv587/Popover" target="_blank" rel="noopener">https://github.com/wsv587/Popover</a><br>5&gt;修改s.license         注：要和创建远程代码仓库时选择的协议一致<br>6&gt;修改s.source        注：pod install 就是根据这个s.source安装的<br>7&gt;修改s.source_files路径   相对podspec的路径<br>8&gt;打开 s.requires_arc = true</p>
+</blockquote>
+</li>
+</ol>
+<p><code>注意</code>：pod spec文件中的s.version一定要和刚才打的tag一致。</p>
+<ol start="8">
+<li>执行 lint 检查（可选），命令：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib lint</span><br></pre></td></tr></table></figure>
 
 <p>该命令会对本地podspec文件的语法和正确性进行检查。</p>
 <ol start="9">
