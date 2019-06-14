@@ -83,7 +83,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的常见用法"><span class="toc-number">1.1.</span> <span class="toc-text">对象的常见用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象特性"><span class="toc-number">1.2.</span> <span class="toc-text">对象特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性特性"><span class="toc-number">1.3.</span> <span class="toc-text">属性特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象分类"><span class="toc-number">1.4.</span> <span class="toc-text">对象分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性分类"><span class="toc-number">1.5.</span> <span class="toc-text">属性分类</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的常见用法"><span class="toc-number">1.1.</span> <span class="toc-text">对象的常见用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象特性"><span class="toc-number">1.2.</span> <span class="toc-text">对象特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性特性"><span class="toc-number">1.3.</span> <span class="toc-text">属性特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象分类"><span class="toc-number">1.4.</span> <span class="toc-text">对象分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性分类"><span class="toc-number">1.5.</span> <span class="toc-text">属性分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建对象"><span class="toc-number">1.6.</span> <span class="toc-text">创建对象</span></a></li></ol></li></ol>
         
     </div>
 </aside>
@@ -150,6 +150,21 @@
 <h3 id="属性分类"><a href="#属性分类" class="headerlink" title="属性分类"></a>属性分类</h3><ul>
 <li>继承属性（inherited property）：是在对象所属的原型对象中定义的属性，该属性是继承而来的。</li>
 <li>自有属性（own property）：相对于继承属性，是直接在对象中定义的属性。</li>
+</ul>
+<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>JavaScript中有3中创建对象的方式。分别是通过对象直接量、关键字new、Object.create()函数创建对象。</p>
+<ul>
+<li>对象直接量创建<blockquote>
+<p>使用对象直接量创建对象是最简单的方式。对象直接量就是一个对象，就像我们可以用一对方括号初始化一个数组一样，我们也可以使用一个对象直接量初始化一个对象。对象直接量是由若干个key-value对组成的映射表，key-value对之间用逗号分隔，外层用花括号括起来。如下：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> empty = &#123;&#125;</span><br><span class="line"><span class="keyword">var</span> point = &#123;<span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">var</span> book = &#123;</span><br><span class="line">name: <span class="string">"《JavaScript》"</span>,</span><br><span class="line"><span class="string">"for"</span>: <span class="string">"JavaScript Developer"</span>,</span><br><span class="line"></span><br><span class="line"><span class="string">"author"</span>: &#123;</span><br><span class="line">firstName: <span class="string">"xxx"</span>,</span><br><span class="line">lastName: <span class="string">"xxx"</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><code>注意</code>：在ES3中，保留字作为属性名必须使用引号（比如上米昂book对象中的for属性），而在ES5中则没有这个要求。</p>
+<ul>
+<li>通过new关键字创建对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = new Array()</span><br><span class="line">var d = new Date()</span><br><span class="line">var r = new RegExp(&quot;js&quot;)</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 <p>敬请期待~</p>
 
