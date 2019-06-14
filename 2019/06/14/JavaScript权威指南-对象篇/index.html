@@ -185,7 +185,7 @@
 <blockquote>
 <p>1.所有通过对象直接量创建的对象都具有同一个原型对象（即通过对象直接量创建的对象继承的属性是一样的），他们的原型都是Object.prototype。<br>2.通过关键字new和构造函数创建的对象的原型就是构造函数的prototype属性的值。Array的构造函数就是Array，那么new Array()创建的对象的原型就是Array.prototype。Date的改造函数就是Date，那么new Date()创建的对象的原型就是Date.prototype。<br>所以，通过对象直接量{}、new Object()创建的对象都继承自Object.prototype。<br>综上：对象的原型都可以通过<code>对象类型.prototype</code>获取。</p>
 </blockquote>
-<p>敬请期待~</p>
+<p><code>上面说JavaScript中，绝大多数对象都具有原型。所以也存在没有原型的对象，但为数不多，Object.prototype就是其中之一。Object.prototype不继承任何属性，他的的属性都是自有属性。</code><br>构造函数就是对象的类型。Date型对象的构造函数就是Date，Array型对象的构造函数就是Array，所有的内置构造函数以及大部分的自定义构造函数的原型都继承自Object.prototype。例如：<br><strong>Array的原型是Array.prototype，Array.prototype的原型师Object.prototype.</strong><br>敬请期待~</p>
 
         
     </section>
