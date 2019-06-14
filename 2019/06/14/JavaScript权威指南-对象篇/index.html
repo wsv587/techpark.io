@@ -167,16 +167,11 @@
 </li>
 <li><p><strong>Object.create()函数创建对象</strong></p>
 <blockquote>
-<ol>
-<li>ES5中定义了一个名为Object.create()的方法。这个方法接收两个参数，第一个参数是对象的<code>原型</code>。第二个参数是可选参数，这个可选参数用以对对象的属性进行进一步描述。</li>
-</ol>
+<p>1.ES5中定义了一个名为Object.create()的方法。这个方法接收两个参数，第一个参数是对象的<code>原型</code>。第二个参数是可选参数，这个可选参数用以对对象的属性进行进一步描述。</p>
 </blockquote>
 </li>
 </ul>
-<ol start="2">
-<li>Object.create()是一个静态函数，在其他语言中可叫做类方法、静态方法。这是由Object类直接调用的方法，而不是由某个对象调用。</li>
-<li>通过Object.create()方法，可以通过任意原型创建新对象。也就是可以使任意对象可被继承。</li>
-</ol>
+<p>2.Object.create()是一个静态函数，在其他语言中可叫做类方法、静态方法。这是由Object类直接调用的方法，而不是由某个对象调用。<br>3.通过Object.create()方法，可以通过任意原型创建新对象。也就是可以使任意对象可被继承。</p>
 <p>使用Object.create()创建对象，只需要传入他的原型即可。如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> point = <span class="built_in">Object</span>.create(&#123;<span class="attr">x</span>:<span class="number">1</span>, <span class="attr">y</span>:<span class="number">2</span>&#125;) <span class="comment">// point对象继承了x、y属性。</span></span><br></pre></td></tr></table></figure>
 
