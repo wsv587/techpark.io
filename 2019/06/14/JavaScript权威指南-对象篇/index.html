@@ -175,12 +175,16 @@
 </ul>
 <ol start="2">
 <li>Object.create()是一个静态函数，在其他语言中可叫做类方法、静态方法。这是由Object类直接调用的方法，而不是由某个对象调用。</li>
+<li>通过Object.create()方法，可以通过任意原型创建新对象。也就是可以使任意对象可被继承。</li>
 </ol>
 <p>使用Object.create()创建对象，只需要传入他的原型即可。如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> point = <span class="built_in">Object</span>.create(&#123;<span class="attr">x</span>:<span class="number">1</span>, <span class="attr">y</span>:<span class="number">2</span>&#125;) <span class="comment">// point对象继承了x、y属性。</span></span><br></pre></td></tr></table></figure>
 
 <p>可以通过传入null来创建一个没有原型的对象，这个对象不会继承任何东西，甚至不会继承toString()方法。也就是说，这个对象将不能使用”+”运算符如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(<span class="literal">null</span>) <span class="comment">// obj 没有原型</span></span><br></pre></td></tr></table></figure>
+
+<p>如果想创建空对象（比如通过对象直接量{}创建的对象或通过new Object()创建的对象），需要传入Object.prototype。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> empty = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype) <span class="comment">// 等同于 var empty = &#123;&#125; 或 var empty = new Object()</span></span><br></pre></td></tr></table></figure>
 
 <p>敬请期待~</p>
 
