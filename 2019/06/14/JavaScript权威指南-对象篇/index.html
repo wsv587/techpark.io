@@ -153,7 +153,7 @@
 </ul>
 <h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>JavaScript中有3中创建对象的方式。分别是通过对象直接量、关键字new、Object.create()函数创建对象。</p>
 <ul>
-<li>对象直接量创建<blockquote>
+<li><strong>对象直接量创建</strong><blockquote>
 <p>使用对象直接量创建对象是最简单的方式。对象直接量就是一个对象，就像我们可以用一对方括号初始化一个数组一样，我们也可以使用一个对象直接量初始化一个对象。对象直接量是由若干个key-value对组成的映射表，key-value对之间用逗号分隔，外层用花括号括起来。如下：</p>
 </blockquote>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> empty = &#123;&#125;</span><br><span class="line"><span class="keyword">var</span> point = &#123;<span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">var</span> book = &#123;</span><br><span class="line">name: <span class="string">"《JavaScript》"</span>,</span><br><span class="line"><span class="string">"for"</span>: <span class="string">"JavaScript Developer"</span>,</span><br><span class="line"></span><br><span class="line"><span class="string">"author"</span>: &#123;</span><br><span class="line">firstName: <span class="string">"xxx"</span>,</span><br><span class="line">lastName: <span class="string">"xxx"</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -162,10 +162,26 @@
 </ul>
 <p><code>注意</code>：在ES3中，保留字作为属性名必须使用引号（比如上米昂book对象中的for属性），而在ES5中则没有这个要求。</p>
 <ul>
-<li>通过new关键字创建对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = new Array()</span><br><span class="line">var d = new Date()</span><br><span class="line">var r = new RegExp(&quot;js&quot;)</span><br></pre></td></tr></table></figure>
-
+<li><p><strong>通过new关键字创建对象</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line"><span class="keyword">var</span> r = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"js"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Object.create()函数创建对象</strong></p>
+<blockquote>
+<ol>
+<li>ES5中定义了一个名为Object.create()的方法。这个方法接收两个参数，第一个参数是对象的<code>原型</code>。第二个参数是可选参数，这个可选参数用以对对象的属性进行进一步描述。</li>
+</ol>
+</blockquote>
 </li>
 </ul>
+<ol start="2">
+<li>Object.create()是一个静态函数，在其他语言中可叫做类方法、静态方法。这是由Object类直接调用的方法，而不是由某个对象调用。</li>
+</ol>
+<p>使用Object.create()创建对象，只需要传入他的原型即可。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> point = <span class="built_in">Object</span>.create(&#123;<span class="attr">x</span>:<span class="number">1</span>, <span class="attr">y</span>:<span class="number">2</span>&#125;) <span class="comment">// point对象继承了x、y属性。</span></span><br></pre></td></tr></table></figure>
+
+<p>可以通过传入null来创建一个没有原型的对象，这个对象不会继承任何东西，甚至不会继承toString()方法。也就是说，这个对象将不能使用”+”运算符如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(<span class="literal">null</span>) <span class="comment">// obj 没有原型</span></span><br></pre></td></tr></table></figure>
+
 <p>敬请期待~</p>
 
         
