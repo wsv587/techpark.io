@@ -11,7 +11,7 @@
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content="前言上一篇讲解了发布一个cocoapods三方框架的主要流程步骤。本篇文章结合上面文章的步骤，将会以实际演练为主，一步一步发布一个三方框架到cocoapods。本篇文章将以一个名为Lego的三方库为例，讲解如何创建并发布到cocoapods官方。1.创建pod模板仓库1pod lib create Lego/Users/sw/Downloads/Snip20190615_60.png执行以上命令后，pod会在当前文件夹（笔者当前的文件夹是lib）下创建一个名为Lego的文件夹作为...">
+    <meta name="description" content="前言上一篇讲解了发布一个cocoapods三方框架的主要流程步骤。本篇文章结合上面文章的步骤，将会以实际演练为主，一步一步发布一个三方框架到cocoapods。本篇文章将以一个名为Lego的三方库为例，讲解如何创建并发布到cocoapods官方。1.创建pod模板仓库1pod lib create Lego执行以上命令后，pod会在当前文件夹（笔者当前的文件夹是lib）下创建一个名为Lego的文件夹作为模板工程，并且会从https://github.com/CocoaPods/p...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -119,7 +119,7 @@
 <p>本篇文章将以一个名为Lego的三方库为例，讲解如何创建并发布到cocoapods官方。<br>1.创建pod模板仓库</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create Lego</span><br></pre></td></tr></table></figure>
 
-<p>/Users/sw/Downloads/Snip20190615_60.png<br>执行以上命令后，pod会在当前文件夹（笔者当前的文件夹是lib）下创建一个名为Lego的文件夹作为模板工程，并且会从<a href="https://github.com/CocoaPods/pod-template.git" target="_blank" rel="noopener">https://github.com/CocoaPods/pod-template.git</a> 这个地址clone一份pod模板放入Lego中。<br>然后这个命令并没有结束，因为pod lib create是一个交互式命令， 需要我们根据提示来进行输入，以初始化这个pod模板仓库。如下:<br>/Users/sw/Downloads/Snip20190615_59.png</p>
+<p><img src="/Users/sw/Downloads/Snip20190615_60.png" alt><br>执行以上命令后，pod会在当前文件夹（笔者当前的文件夹是lib）下创建一个名为Lego的文件夹作为模板工程，并且会从<a href="https://github.com/CocoaPods/pod-template.git" target="_blank" rel="noopener">https://github.com/CocoaPods/pod-template.git</a> 这个地址clone一份pod模板放入Lego中。<br>然后这个命令并没有结束，因为pod lib create是一个交互式命令， 需要我们根据提示来进行输入，以初始化这个pod模板仓库。如下:<br><img src="/Users/sw/Downloads/Snip20190615_59.png" alt></p>
 <p>敬请期待~</p>
 
         
