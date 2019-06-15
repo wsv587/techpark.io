@@ -79,7 +79,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的一些坑"><span class="toc-number">2.</span> <span class="toc-text">遇到的一些坑</span></a></li></ol>
         
     </div>
 </aside>
@@ -153,6 +153,12 @@
 
 </li>
 </ol>
+<h2 id="遇到的一些坑"><a href="#遇到的一些坑" class="headerlink" title="遇到的一些坑"></a>遇到的一些坑</h2><ol>
+<li>执行pod trunk push报错，如下：<br>[!] The spec did not pass validation, due to 5 warnings (but you can use <code>--allow-warnings</code> to ignore them).</li>
+</ol>
+<p>解决办法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk push --allow-warnings</span><br></pre></td></tr></table></figure>
+
 <p>敬请期待~</p>
 
         
