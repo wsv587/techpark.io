@@ -132,6 +132,13 @@
 <blockquote>
 <p>[]中不一定必须写字符串或者字符串表达式，也可以写数字或者JavaScript可以转换为字符串的表达式。</p>
 </blockquote>
+<p>假设你正在写一个程序，这个程序是统计员工的工资。程序接收员工的姓名和工资金额作为输入参数，使用名为employee的对象存储这些信息。每个员工在这个employee对象中都有对应的属性，属性名就是员工的名称，属性值就是员工的工资。例如，员工姓名（属性名）是”ws”，工资（属性值）是“”$100000“。如下函数简单实现了统计员工工资的功能：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">employee2Salary</span>(<span class="params">employee, name, salary</span>) </span>&#123;</span><br><span class="line">employee[name] = salary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为name是外部输入的，程序无法预先定义好这些属性名，所以无法使用点语法来访问对象的属性，以上程序的属性设置和读取只能用数组的写法[]来完成。</p>
+<blockquote>
+<p>总结：使用[]写法，因为[] 内使用的是字符串，字符串只是动态的，可以在运行时更改，而点语法的标识符是静态的，必须预先写死在程序中，不能够更改。理解这一点非常重要。</p>
+</blockquote>
 <p>敬请期待~</p>
 
         
