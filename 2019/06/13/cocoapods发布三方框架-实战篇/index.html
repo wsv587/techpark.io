@@ -120,7 +120,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create Lego</span><br></pre></td></tr></table></figure>
 
 <p>笔者操作如下：<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_60.png" alt="pod lib create Lego"><br>执行以上命令后，pod会在当前文件夹（笔者当前的文件夹是lib）下创建一个名为Lego的文件夹作为模板工程，并且会从<a href="https://github.com/CocoaPods/pod-template.git" target="_blank" rel="noopener">https://github.com/CocoaPods/pod-template.git</a> 这个地址clone一份pod模板放入Lego中。<br>然后这个命令并没有结束，因为pod lib create是一个交互式命令， 需要我们根据提示来进行输入，以初始化这个pod模板仓库。如下:<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_59.png" alt="初始化模板仓库"><br>配置好后，Xcode会自定打开我们的模板工程，如下图：<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_62.png" alt="模板工程目录"></p>
-<p>2.在模板工程的Pods/Development Pods/Lego下创建添加我们的源文件（记得删除Pods/Development Pods/Lego下那个无用的replaceMe.m文件）。如下图，笔者添加了一个Math.h和Math.m文件：<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_63.png" alt="添加源文件"></p>
+<p>2.在模板工程的Lego/Classes目录下添加我们的源文件（记得删除那个无用的replaceMe.m文件）。如下图，笔者在Classes文件夹下添加了一个Math.h和Math.m文件：<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_66.png" alt="添加源文件"></p>
 <p>3.然后cd到Lego/Example文件夹下执行pod install。如下图：<br><img src="/2019/06/13/cocoapods发布三方框架-实战篇/Snip20190615_64.png" alt="pod install"></p>
 <p>敬请期待~</p>
 
