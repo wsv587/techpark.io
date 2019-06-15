@@ -79,7 +79,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-number">2.</span> <span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null和undefined"><span class="toc-number">3.</span> <span class="toc-text">null和undefined</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-number">2.</span> <span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null和undefined"><span class="toc-number">3.</span> <span class="toc-text">null和undefined</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局对象"><span class="toc-number">4.</span> <span class="toc-text">全局对象</span></a></li></ol>
         
     </div>
 </aside>
@@ -122,6 +122,13 @@
 <blockquote>
 <p>如果想使用“空值”初始化一个变量或对象，请使用null，而非undefined。undefined是表示系统级的、出乎意料的或类似错误的值的空缺，而null表示程序级的、正常的或在意料之内的指的空缺。</p>
 </blockquote>
+<h2 id="全局对象"><a href="#全局对象" class="headerlink" title="全局对象"></a>全局对象</h2><p>JavaScript中有一类特殊的兑现-全局对象。全局对象（global object）在JavaScript中有重要用途：全局对象的属性是全局定义的符号，JavaScript程序可以直接使用。当JavaScript解释器启动时或任何Web浏览器加载新页面的时候，他将创建一个新的全局对象，并给他一组定义好的初始属性：</p>
+<ul>
+<li>全局属性，比如 undefined、Infinity、NaN(not a number)</li>
+<li>全局函数，r比如 isNaN()、parseInt()</li>
+<li>构造函数， 比如 Date()、RegExp()、String()、Object()、Array()</li>
+<li>全局对象，比如 Math和Json<br><code>PS</code>：全局对象的初始属性并不是保留字，但他们应该被当成保留字来对待。</li>
+</ul>
 <p>敬请期待~</p>
 
         
