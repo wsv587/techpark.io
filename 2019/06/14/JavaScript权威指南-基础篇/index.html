@@ -127,8 +127,14 @@
 <li>全局属性，比如 undefined、Infinity、NaN(not a number)</li>
 <li>全局函数，r比如 isNaN()、parseInt()</li>
 <li>构造函数， 比如 Date()、RegExp()、String()、Object()、Array()</li>
-<li>全局对象，比如 Math和Json<br><code>PS</code>：全局对象的初始属性并不是保留字，但他们应该被当成保留字来对待。</li>
+<li>全局对象，比如 Math和Json<br><code>PS</code>：全局对象的初始属性并不是保留字，但他们应该被当成保留字来对待。<br>如下图，是JavaScript中预定义的全局变量和函数。<br><img src="/2019/06/14/JavaScript权威指南-基础篇/Snip20190616_71.png" alt></li>
 </ul>
+<p>在代码的最外层（不在任何函数内的JavaScript代码），可以使用JavaScript关键字this获得全局对象的引用（即在最外层，this引用着全局对象）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> global = <span class="keyword">this</span>; <span class="comment">// 定义一个全局变量"global"来引用全局对象</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在客户端JavaScript中，Window对充当了全局对象。这个全局对象有一个名为window的属性引用了全局对象自身，全局对象的window属性可以代替this来引用全局对象。Window对象定义了核心的全局属性，但他也针对于Web浏览器和客户端JavaScript定义了一少部分其他的全局属性。<br>JavaScript中，如果代码声明了一个全局变量，那么这个全局变量就是全局对象的一个属性。</p>
+</blockquote>
 <p>敬请期待~</p>
 
         
