@@ -144,9 +144,12 @@
 <p>原因：只要调用了字符串str的属性或者方法，JavaScript就会将字符串通过调用new String(str)的方式转换成String对象。这个对象继承了字符串的方法和属性。并被用来处理方法和属性的引用（即方法或属性的调用者），一旦处理完毕，这个临时床架的新对象就会被销毁。<br>同字符串一样，数字和布尔也具有格子的方法。通过Number()和Boolean()构造函数创建一个临时对象，这些方法的调用均来自于这个临时对象。</p>
 </blockquote>
 <p><code>PS</code>：<code>null和undefined没有包装对象，所以在null或undefined身上访问属性或方法会造成一个类型错误。</code></p>
-<blockquote>
-<p>总结：调用string、number、boolean的属性或方法时临时创建的对象称为包装对象，它只是偶尔用来区分字符串值和字符串对象、数字和数字对象、布尔值和布尔对象。通常，包装对象的创建和销毁是JavaScript自动管理的，包装对象只是被看做是一种实现细节，而不用特别关注。<br>敬请期待~</p>
-</blockquote>
+<p>看如下代码，思考执行结果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">"test"</span> <span class="comment">// 创建一个原始字符串</span></span><br><span class="line">s.count = <span class="number">4</span>    <span class="comment">// 给他设置一个count属性</span></span><br><span class="line"><span class="keyword">var</span> length = s.count <span class="comment">// 读取这个属性</span></span><br></pre></td></tr></table></figure>
+
+<p>当运行这段代码时，length的值是undefined。因为：第二行代码创建了一个临时字符串对象，并给这个临时字符串对象添加了一个名为count的属性，然后给count属性赋值为4，随后第二行代码执行完成，临时字符串对象立即被销毁。第三行依旧是读取的原始字符串s的count属性，我们知道，原始字符串并不是对象，他没有任何属性和方法，count这个属性自然不存在，所以结果是undefined。这段代码说明：<strong>在读取number、string、boolean的属性或方法时，其行为表现的像对象一样，但如果视图给number、string、boolean的属性赋值，则会忽略这一操作，因为修改只是发生在临时对象身上，而临时对象并没有被保存下来。</strong></p>
+<p><strong>总结</strong>：调用string、number、boolean的属性或方法时临时创建的对象称为包装对象，它只是偶尔用来区分字符串值和字符串对象、数字和数字对象、布尔值和布尔对象。通常，包装对象的创建和销毁是JavaScript自动管理的，包装对象只是被看做是一种实现细节，而不用特别关注。</p>
+<p>敬请期待~</p>
 
         
     </section>
