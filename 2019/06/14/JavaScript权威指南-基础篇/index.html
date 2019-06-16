@@ -136,7 +136,7 @@
 <p>在客户端JavaScript中，Window对充当了全局对象。这个全局对象有一个名为window的属性引用了全局对象自身，全局对象的window属性可以代替this来引用全局对象。Window对象定义了核心的全局属性，但他也针对于Web浏览器和客户端JavaScript定义了一少部分其他的全局属性。<br>JavaScript中，全局对象定义了JavaScript中所有的预定义全局值。同样，全局对象也包含了（程序员）为程序定义的(程序级别的)全局变量。也就是说，在JavaScript中，如果代码声明了一个全局变量，那么这个全局变量就是全局对象的一个属性。</p>
 </blockquote>
 <h2 id="包装对象"><a href="#包装对象" class="headerlink" title="包装对象"></a>包装对象</h2><blockquote>
-<p>包装对象是指将基本数据类型包装成对应的对象类型的对象。例如string的包装对象是String，boolean的包装对象是Boolean。<br>我们知道，所有面向对象的语言中，只有对象才拥有属性和方法。通常，我们可以通过“.”运算符来调用对象的属性，也可以通过“.”运算符来调用对象的方法。但是字符串(string)作为JavaScript的基本数据类型（string并不是对象类型）为什么h它会有属性和方法呢？如下，JavaScript中，调用字符串的属性和方法将会正常运行，并不会抛出任何错误：</p>
+<p>包装对象是指将基本数据类型包装成对应的对象类型的对象。例如number的包装对象是Number，string的包装对象是String，boolean的包装对象是Boolean。<br>我们知道，所有面向对象的语言中，只有对象才拥有属性和方法。通常，我们可以通过“.”运算符来调用对象的属性，也可以通过“.”运算符来调用对象的方法。但是字符串(string)作为JavaScript的基本数据类型（string并不是对象类型）为什么h它会有属性和方法呢？如下，JavaScript中，调用字符串的属性和方法将会正常运行，并不会抛出任何错误：</p>
 </blockquote>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str  = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">var</span> length = str.length <span class="comment">// 调用字符串属性</span></span><br><span class="line"><span class="keyword">var</span> world = str.substring(str.indexOf(<span class="string">" "</span>) + <span class="number">1</span>, str.length) <span class="comment">// 调用字符串方法</span></span><br></pre></td></tr></table></figure>
 
@@ -144,7 +144,9 @@
 <p>原因：只要调用了字符串str的属性或者方法，JavaScript就会将字符串通过调用new String(str)的方式转换成String对象。这个对象继承了字符串的方法和属性。并被用来处理方法和属性的引用（即方法或属性的调用者），一旦处理完毕，这个临时床架的新对象就会被销毁。<br>同字符串一样，数字和布尔也具有格子的方法。通过Number()和Boolean()构造函数创建一个临时对象，这些方法的调用均来自于这个临时对象。</p>
 </blockquote>
 <p><code>PS</code>：<code>null和undefined没有包装对象，所以在null或undefined身上访问属性或方法会造成一个类型错误。</code></p>
-<p>敬请期待~</p>
+<blockquote>
+<p>总结：调用string、number、boolean的属性或方法时临时创建的对象称为包装对象，它只是偶尔用来区分字符串值和字符串对象、数字和数字对象、布尔值和布尔对象。通常，包装对象的创建和销毁是JavaScript自动管理的，包装对象只是被看做是一种实现细节，而不用特别关注。<br>敬请期待~</p>
+</blockquote>
 
         
     </section>
