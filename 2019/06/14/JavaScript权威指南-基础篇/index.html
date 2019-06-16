@@ -141,8 +141,9 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str  = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">var</span> length = str.length <span class="comment">// 调用字符串属性</span></span><br><span class="line"><span class="keyword">var</span> world = str.substring(str.indexOf(<span class="string">" "</span>) + <span class="number">1</span>, str.length) <span class="comment">// 调用字符串方法</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>原因：只要调用了字符串str的属性或者方法，JavaScript就会将字符串通过调用new String(str)的方式转换成String对象。这个对象继承了字符串的方法和属性。并被用来处理方法和属性的引用（即方法或属性的调用者），一旦处理完毕，这个临时床架的新对象就会被销毁。<br>同字符串一样，数字和布尔也具有格子的方法。通过Number()和Boolean()构造函数创建一个临时对象，这些方法的调用均来自于这个临时对象。<br><code>PS</code>：null和undefined没有包装对象，所以在null或undefined身上访问属性或方法会造成一个类型错误。</p>
+<p>原因：只要调用了字符串str的属性或者方法，JavaScript就会将字符串通过调用new String(str)的方式转换成String对象。这个对象继承了字符串的方法和属性。并被用来处理方法和属性的引用（即方法或属性的调用者），一旦处理完毕，这个临时床架的新对象就会被销毁。<br>同字符串一样，数字和布尔也具有格子的方法。通过Number()和Boolean()构造函数创建一个临时对象，这些方法的调用均来自于这个临时对象。</p>
 </blockquote>
+<p><code>PS</code>：<code>null和undefined没有包装对象，所以在null或undefined身上访问属性或方法会造成一个类型错误。</code></p>
 <p>敬请期待~</p>
 
         
