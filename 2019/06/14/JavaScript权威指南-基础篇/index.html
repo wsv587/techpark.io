@@ -79,7 +79,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-number">2.</span> <span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null和undefined"><span class="toc-number">3.</span> <span class="toc-text">null和undefined</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局对象"><span class="toc-number">4.</span> <span class="toc-text">全局对象</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-number">2.</span> <span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null和undefined"><span class="toc-number">3.</span> <span class="toc-text">null和undefined</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局对象"><span class="toc-number">4.</span> <span class="toc-text">全局对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#包装对象"><span class="toc-number">4.1.</span> <span class="toc-text">包装对象</span></a></li></ol></li></ol>
         
     </div>
 </aside>
@@ -135,6 +135,9 @@
 <blockquote>
 <p>在客户端JavaScript中，Window对充当了全局对象。这个全局对象有一个名为window的属性引用了全局对象自身，全局对象的window属性可以代替this来引用全局对象。Window对象定义了核心的全局属性，但他也针对于Web浏览器和客户端JavaScript定义了一少部分其他的全局属性。<br>JavaScript中，全局对象定义了JavaScript中所有的预定义全局值。同样，全局对象也包含了（程序员）为程序定义的(程序级别的)全局变量。也就是说，在JavaScript中，如果代码声明了一个全局变量，那么这个全局变量就是全局对象的一个属性。</p>
 </blockquote>
+<h3 id="包装对象"><a href="#包装对象" class="headerlink" title="包装对象"></a>包装对象</h3><p>我们知道，所有面向对象的语言中，只有对象才拥有属性和方法。通常，我们可以通过“.”运算符来调用对象的属性，也可以通过“.”运算符来调用对象的方法。但是字符串(string)作为JavaScript的基本数据类型（string并不是对象类型）为什么h它会有属性和方法呢？如下，JavaScript中，调用字符串的属性和方法将会正常运行，并不会抛出任何错误：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str  = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">var</span> length = str.length <span class="comment">// 调用字符串属性</span></span><br><span class="line"><span class="keyword">var</span> world = str.substring(str.indexOf(<span class="string">" "</span>) + <span class="number">1</span>, str.length) <span class="comment">// 调用字符串方法</span></span><br></pre></td></tr></table></figure>
+
 <p>敬请期待~</p>
 
         
