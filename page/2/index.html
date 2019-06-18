@@ -261,15 +261,29 @@
 <h2 id="NSUserDefaults"><a href="#NSUserDefaults" class="headerlink" title="NSUserDefaults"></a>NSUserDefaults</h2><p>NSUserDefaults的常见用法，如下：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] setObject:@(<span class="number">1</span>) forKey:<span class="string">@"isVip"</span>];</span><br><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] objectForKey:<span class="string">@"isVip"</span>];</span><br></pre></td></tr></table></figure>
 
-<h3 id="synchronize"><a href="#synchronize" class="headerlink" title="synchronize"></a>synchronize</h3><blockquote>
-<p>有时候，我们也可能会用到NSUserDefaults的<code>-(BOOL)synchronize</code>方法，但请注意，这个方法将会在不就之后被废弃，Apple官方不推荐使用synchronize来实现数据的同步。废弃的原因是：synchronize方法会阻塞当前线程直到所有的数据都持久化之后才会返回。至于其他更深层次的原因，咱也不知道，咱也不敢问。</p>
+<h3 id="synchronize"><a href="#synchronize" class="headerlink" title="synchronize"></a>synchronize</h3><p> NSUserDefaults向磁盘中写入数据不是实时的。有时候我们出于安全（比如担心程序异常退出而导致数据未能及时持久化）和业务上（比如持久化的数据需要立即在另一个地方读取）的需要，希望执行了[[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@”isVip”]之后，数据能够立即持久化到磁盘中，在这种场景下，我们通常会调用下synchronize。<br>另外NSUserDefaults只支持系统类型，比如NSString, NSNumber, NSDate, NSArray, NSDictionary。不支持自定义类型。</p>
+<blockquote>
+<p>有时候，我们也可能会用到NSUserDefaults的<code>-(BOOL)synchronize</code>方法，但请注意，这个方法将会在不就之后被废弃，Apple官方不推荐使用synchronize来实现数据的同步。废弃的原因是：synchronize方法会阻塞当前线程直到所有的数据都持久化之后才会返回。</p>
 </blockquote>
-<p>synchronize存在的原因: NSUserDefaults向磁盘中写入数据不是实时的。有时候我们出于安全（比如担心程序异常退出而导致数据未能及时持久化）和业务上（比如持久化的数据需要立即在另一个地方读取）的需要，希望执行了[[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@”isVip”]之后，数据能够立即持久化到磁盘中，在这种场景下，我们通常会调用下synchronize。<br>另外NSUserDefaults只支持系统类型，比如NSString, NSNumber, NSDate, NSArray, NSDictionary。不支持自定义类型。</p>
-<h2 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h2><p>我们新建一个名为NSUserDefaults的iOS项目，然后点击Xcode左上角的项目名称，点击【Edit Scheme…】，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_77.png" alt><br>进入Edit Scheme面板，依次选择Run-&gt;Arguments-&gt;Arguments Passed On Launch，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_78.png" alt><br>然后在Arguments Passed On Launch下点击“+”来新增”-cityId 1”，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_79.png" alt></p>
+<h2 id="Arguments-Passed-On-Launch"><a href="#Arguments-Passed-On-Launch" class="headerlink" title="Arguments Passed On Launch"></a>Arguments Passed On Launch</h2><p>我们新建一个名为NSUserDefaults的iOS项目，然后点击Xcode左上角的项目名称，点击【Edit Scheme…】，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_77.png" alt><br>进入Edit Scheme面板，依次选择Run-&gt;Arguments-&gt;Arguments Passed On Launch，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_78.png" alt><br>然后在Arguments Passed On Launch下点击“+”来新增”-cityId 1”，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_79.png" alt></p>
 <p>然后使用NSUserDefaults来取得这个参数：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSUserDefaults</span> *defaults = [<span class="built_in">NSUserDefaults</span> standardUserDefaults];</span><br><span class="line"><span class="keyword">id</span> cityId = [defaults objectForKey:<span class="string">@"cityId"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"cityId: %@"</span>, cityId); <span class="comment">// cityId: 1</span></span><br></pre></td></tr></table></figure>
 
 <p>可见，我们可以通过在Xcode的Edit Scheme配置一些启动参数。当程序运行起来时，Xcode的会自动把这些参数设置给NSUserDefaults。但是这仅限于Xcode启动APP，如果通过点击APP 图标的方式启动APP，那么NSUserDefaults并不会接收到传递的参数。</p>
+<h2 id="NSUserDefaults域"><a href="#NSUserDefaults域" class="headerlink" title="NSUserDefaults域"></a>NSUserDefaults域</h2><p>NSUserDefaults对象底层包含5个domain(域)，分别是：</p>
+<ul>
+<li>NSArgumentDomain</li>
+<li>Application</li>
+<li>NSGlobalDomain</li>
+<li>Languages</li>
+<li>NSRegistrationDomain</li>
+</ul>
+<p>NSUserDefaults的这5个域从上向下优先级一次递减，我们的<strong>[[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@”isVip”];</strong>默认会把数据写到Application这个域中。<br>当通过<strong>id cityId = [defaults objectForKey:@”cityId”];</strong>读取的时候，会按照NSArgumentDomain -&gt; Application -&gt; NSGlobalDomain -&gt; Languages -&gt; NSRegistrationDomain的优先级顺序依次搜索每个域，如果在某个域检索到对应的value，那么就直接返回，否则会一直向下一个domain搜索，直到搜索到NSRegistrationDomain这个域为止。<br>NSUserDefaults的这种按域分层设计：可以实现参数覆盖。因为5个域之间存在访问优先级，这样就可以实现高优先级域的数据覆盖低优先级域数据。这样又有什么用处呢？<br>比如，Xcode启动传参的数据是存储在NSArgumentDomain这个域中的，APP的默认语言是存储在Languages这域中的。而这个Languages域的优先级低于NSArgumentDomain，这样就可以通过Xcode的启动传参来实现APP语言的设置优先使用Xcode的传参配置。</p>
+<p>另外，NSUserDefaults还有registerDefaults功能。一旦通过registerDefaults为某个key注册了默认值，那么通过key取值时，在value为空的情况下，NSUserDefaults会为我们返回默认值，使用方法如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSUserDefaults</span> *defaults = [<span class="built_in">NSUserDefaults</span> standardUserDefaults];</span><br><span class="line">[defaults registerDefaults:@&#123;<span class="string">@"cityId"</span>: @(<span class="number">0</span>)&#125;];</span><br><span class="line"><span class="keyword">id</span> cityId = [defaults objectForKey:<span class="string">@"cityId"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>那么他又是怎么实现的呢？其实道理很简单，前面已经讲过了NSUserDefaults的5个域的概念。其中最后一个域也就是搜索优先级最低的域叫做NSRegistrationDomain。我们所有通过registerDefaults方法注册的默认值都会设置到这个域中。当按照优先级顺序从上向下访问每个域时，如果最终访问到了<br>NSRegistrationDomain，则说明前面4个域都没有对应key的value，那么就会返回NSRegistrationDomain中注册的默认值。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可见，NSUserDefaults不仅实现了简单的存储。其内部的按域分层设计和Xcode的启动传参为我们的开发带来了更多的可能。</p>
 <p>敬请期待~</p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://swiftcafe.io/2016/04/04/nsuserdefaults" target="_blank" rel="noopener">NSUserDefaults - 熟悉与陌生</a></p>
 
