@@ -7,7 +7,7 @@
 
     
 
-    <title>NSUserDefaults实现Xcode启动传参 | 技术线博客</title>
+    <title>NSUserDefaults和Xcode启动传参 | 技术线博客</title>
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
@@ -95,11 +95,11 @@
     <header class="article-header">
         
         <h1 itemprop="name">
-            NSUserDefaults实现Xcode启动传参
+            NSUserDefaults和Xcode启动传参
         </h1>
         
         <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/2019/06/07/NSUserDefaults实现Xcode启动传参/index.html">
+            <a class="article-date" href="http://yoursite.com/2019/06/07/NSUserDefaults和Xcode启动传参/index.html">
     
     <i class="icon-calendar"></i>
     
@@ -128,7 +128,7 @@
 <blockquote>
 <p>有时候，我们也可能会用到NSUserDefaults的<code>-(BOOL)synchronize</code>方法，但请注意，这个方法将会在不就之后被废弃，Apple官方不推荐使用synchronize来实现数据的同步。废弃的原因是：synchronize方法会阻塞当前线程直到所有的数据都持久化之后才会返回。</p>
 </blockquote>
-<h2 id="Arguments-Passed-On-Launch"><a href="#Arguments-Passed-On-Launch" class="headerlink" title="Arguments Passed On Launch"></a>Arguments Passed On Launch</h2><p>我们新建一个名为NSUserDefaults的iOS项目，然后点击Xcode左上角的项目名称，点击【Edit Scheme…】，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_77.png" alt><br>进入Edit Scheme面板，依次选择Run-&gt;Arguments-&gt;Arguments Passed On Launch，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_78.png" alt><br>然后在Arguments Passed On Launch下点击“+”来新增”-cityId 1”，如下：<br><img src="/2019/06/07/NSUserDefaults实现Xcode启动传参/Snip20190618_79.png" alt></p>
+<h2 id="Arguments-Passed-On-Launch"><a href="#Arguments-Passed-On-Launch" class="headerlink" title="Arguments Passed On Launch"></a>Arguments Passed On Launch</h2><p>我们新建一个名为NSUserDefaults的iOS项目，然后点击Xcode左上角的项目名称，点击【Edit Scheme…】，如下：<br><img src="/2019/06/07/NSUserDefaults和Xcode启动传参/Snip20190618_77.png" alt><br>进入Edit Scheme面板，依次选择Run-&gt;Arguments-&gt;Arguments Passed On Launch，如下：<br><img src="/2019/06/07/NSUserDefaults和Xcode启动传参/Snip20190618_78.png" alt><br>然后在Arguments Passed On Launch下点击“+”来新增”-cityId 1”，如下：<br><img src="/2019/06/07/NSUserDefaults和Xcode启动传参/Snip20190618_79.png" alt></p>
 <p>然后使用NSUserDefaults来取得这个参数：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSUserDefaults</span> *defaults = [<span class="built_in">NSUserDefaults</span> standardUserDefaults];</span><br><span class="line"><span class="keyword">id</span> cityId = [defaults objectForKey:<span class="string">@"cityId"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"cityId: %@"</span>, cityId); <span class="comment">// cityId: 1</span></span><br></pre></td></tr></table></figure>
 
@@ -166,11 +166,11 @@
         repo: "wsv587.github.io",
         owner: "wsv587",
         admin: ["wsv587"],
-        id: "2019/06/07/NSUserDefaults实现Xcode启动传参",
+        id: "2019/06/07/NSUserDefaults和Xcode启动传参",
         distractionFreeMode: true,
-        title: "NSUserDefaults实现Xcode启动传参",
-        body: "http://yoursite.com/2019/06/07/NSUserDefaults实现Xcode启动传参/",
-        labels: ["iOS","NSUserDefaults","调试"]
+        title: "NSUserDefaults和Xcode启动传参",
+        body: "http://yoursite.com/2019/06/07/NSUserDefaults和Xcode启动传参/",
+        labels: ["iOS","调试","NSUserDefaults"]
     }).render('comments');
     </script>
 </div>
