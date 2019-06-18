@@ -126,7 +126,9 @@
 <p>有时候，我们也可能会用到NSUserDefaults的<code>-(BOOL)synchronize</code>方法，但请注意，这个方法将会在不就之后被废弃，Apple官方不推荐使用synchronize来实现数据的同步。废弃的原因是：synchronize方法会阻塞当前线程直到所有的数据都持久化之后才会返回。至于其他更深层次的原因，咱也不知道，咱也不敢问。</p>
 </blockquote>
 <p>synchronize存在的原因: NSUserDefaults向磁盘中写入数据不是实时的。有时候我们出于安全（比如担心程序异常退出而导致数据未能及时持久化）和业务上（比如持久化的数据需要立即在另一个地方读取）的需要，希望执行了[[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@”isVip”]之后，数据能够立即持久化到磁盘中，在这种场景下，我们通常会调用下synchronize。<br>另外NSUserDefaults只支持系统类型，比如NSString, NSNumber, NSDate, NSArray, NSDictionary。不支持自定义类型。</p>
-<h2 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h2>
+<h2 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h2><p>我们新建一个名为NSUserDefaults的iOS项目，然后点击Xcode左上角的项目名称，点击【Edit Scheme…】，如下：<br><img src="/2019/06/07/NSUserDefaults和环境变量/Snip20190618_77.png" alt><br>进入Edit Scheme面板，依次选择Run-&gt;Arguments-&gt;Arguments Passed On Launch，如下：<br><img src="/2019/06/07/NSUserDefaults和环境变量/Snip20190618_78.png" alt><br>然后在Arguments Passed On Launch下点击“+”来新增”-cityId 1”，如下：<br><img src="/2019/06/07/NSUserDefaults和环境变量/Snip20190618_79.png" alt></p>
+<p>然后代码读取</p>
+
         
     </section>
 </article>
@@ -147,7 +149,7 @@
         distractionFreeMode: true,
         title: "NSUserDefaults和环境变量",
         body: "http://yoursite.com/2019/06/07/NSUserDefaults和环境变量/",
-        labels: ["iOS","NSUserDefaults","环境变量"]
+        labels: ["iOS","环境变量","NSUserDefaults"]
     }).render('comments');
     </script>
 </div>
