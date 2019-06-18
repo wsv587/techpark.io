@@ -294,6 +294,48 @@ Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个tar
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2019/06/07/NSUserDefaults和环境变量/">NSUserDefaults和环境变量</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-07T07:47:18.000Z" itemprop="datePublished">2019-06-07</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/NSUserDefaults/">NSUserDefaults</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/环境变量/">环境变量</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>NSUserDefaults作为iOS內建的存储机制早已为大家所熟知。NSUserDefaults在少量数据持久化和用户偏好存储方面一直发挥着重大的作用。对于NSUserDefaults的常见用法应该是无外乎存取数据。相比较NSUserDefaults，Xcode中的环境变量就比较陌生。有时候，从头到尾开发一款APP也不一定会用到环境变量。而实际上NSUserDefaults和环境变量存在着千丝万缕的关系。本篇文章将会揭开二者的内在联系。</p>
+<h2 id="NSUserDefaults"><a href="#NSUserDefaults" class="headerlink" title="NSUserDefaults"></a>NSUserDefaults</h2><p>NSUserDefaults的常见用法，如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] setObject:@(<span class="number">1</span>) forKey:<span class="string">@"isVip"</span>];</span><br><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] objectForKey:<span class="string">@"isVip"</span>];</span><br></pre></td></tr></table></figure>
+
+<h3 id="synchronize"><a href="#synchronize" class="headerlink" title="synchronize"></a>synchronize</h3><blockquote>
+<p>有时候，我们也可能会用到NSUserDefaults的<code>-(BOOL)synchronize</code>方法，但请注意，这个方法将会在不就之后被废弃，Apple官方不推荐使用synchronize来实现数据的同步。废弃的原因是：synchronize方法会阻塞当前线程直到所有的数据都持久化之后才会返回。至于其他更深层次的原因，咱也不知道，咱也不敢问。</p>
+</blockquote>
+<p>synchronize存在的原因: NSUserDefaults向磁盘中写入数据不是实时的。有时候我们出于安全（比如担心程序异常退出而导致数据未能及时持久化）和业务上（比如持久化的数据需要立即在另一个地方读取）的需要，希望执行了[[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@”isVip”]之后，数据能够立即持久化到磁盘中，在这种场景下，我们通常会调用下synchronize。<br>另外NSUserDefaults只支持系统类型，比如NSString, NSNumber, NSDate, NSArray, NSDictionary。不支持自定义类型。</p>
+<h2 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h2>
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2019/06/07/NSUserDefaults实现Xcode启动传参/">NSUserDefaults实现Xcode启动传参</a>
         </h1>
         
@@ -317,10 +359,7 @@ Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个tar
     
     <section class="article-body markdown-body">
         
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>NSUserDefaults作为iOS內建的存储机制早已为大家所熟知。NSUserDefaults在少量数据持久化和用户偏好存储方面一直发挥着重大的作用。对于NSUserDefaults的常见用法应该是无外乎存取数据，如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] setObject:@(<span class="number">1</span>) forKey:<span class="string">@"isVip"</span>];</span><br><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] objectForKey:<span class="string">@"isVip"</span>];</span><br></pre></td></tr></table></figure>
-
-<p>敬请期待~</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>敬请期待~</p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://swiftcafe.io/2016/04/04/nsuserdefaults" target="_blank" rel="noopener">NSUserDefaults - 熟悉与陌生</a></p>
 
         
