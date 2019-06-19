@@ -182,8 +182,18 @@
     <section class="article-body markdown-body">
         
         <h2 id="网络请求优化"><a href="#网络请求优化" class="headerlink" title="网络请求优化"></a>网络请求优化</h2><ul>
-<li>异步发起网络请求</li>
-<li>能延后的请求延后处理</li>
+<li>异步发起网络请求<blockquote>
+<p>这通常是必须的，很少有同步请求数据的场景。</p>
+</blockquote>
+</li>
+<li>避免接口依赖（串行）<blockquote>
+<p>应该尽量避免下一个接口的请求依赖上一个接口的数据。如果可以，尽量由上一个页面传入网络请求的必填参数。</p>
+</blockquote>
+</li>
+<li>分清主次和轻重缓急，能延后的请求延后处理。能不请求的暂时不<blockquote>
+<p>作为开发习惯，开发者通常习惯性的会在进入页面后请求大部分接口。正像大家都会在viewDidLoad中做页面的初始化工作一样。而实际上，并不是所有的接口必须在第一时间请求。在某些主流程页面上，用户进入页面后，首要任务通常是立即为用户呈现一些必要的数据，应当避免用户盲视（即页面白屏）导致用户退出或流失。比如，某直播APP，用户从直播列表点击某个cell进入某个直播间，应该在第一时间为用户拉取视频流或者显示一张主播背景照作为过渡，而非立即请求房间信息或聊天框消息。</p>
+</blockquote>
+</li>
 <li>能合并的接口合并请求</li>
 <li>网络请求前置<blockquote>
 <p>通常网络请求的发起是在viewController的viewDidLoad及其之后。根据实际业务场景，可以考虑将网络请求前置到loadView甚至是init阶段。如果网络数据返回页面依旧未显示，可以暂时保存数据，待到进入页面(viewDidLoad/viewWillAppear/viewDidAppear)时执行UI刷新。</p>
