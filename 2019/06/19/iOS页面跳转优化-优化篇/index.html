@@ -83,7 +83,7 @@
         
 
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络请求优化"><span class="toc-number">1.</span> <span class="toc-text">网络请求优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步处理"><span class="toc-number">2.</span> <span class="toc-text">异步处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#精简声明周期方法"><span class="toc-number">3.</span> <span class="toc-text">精简声明周期方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源预加载"><span class="toc-number">4.</span> <span class="toc-text">资源预加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UI布局优化（避免创建大量UI和布局）"><span class="toc-number">5.</span> <span class="toc-text">UI布局优化（避免创建大量UI和布局）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#懒加载"><span class="toc-number">6.</span> <span class="toc-text">懒加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#loading动画过渡"><span class="toc-number">7.</span> <span class="toc-text">loading动画过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#渐进式骨架屏过渡"><span class="toc-number">8.</span> <span class="toc-text">渐进式骨架屏过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义push转场"><span class="toc-number">9.</span> <span class="toc-text">自定义push转场</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络请求优化"><span class="toc-number">1.</span> <span class="toc-text">网络请求优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步处理任务"><span class="toc-number">2.</span> <span class="toc-text">异步处理任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#精简声明周期方法"><span class="toc-number">3.</span> <span class="toc-text">精简声明周期方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源预加载"><span class="toc-number">4.</span> <span class="toc-text">资源预加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UI布局优化（避免创建大量UI和布局）"><span class="toc-number">5.</span> <span class="toc-text">UI布局优化（避免创建大量UI和布局）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#懒加载"><span class="toc-number">6.</span> <span class="toc-text">懒加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#loading动画过渡"><span class="toc-number">7.</span> <span class="toc-text">loading动画过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#渐进式骨架屏过渡"><span class="toc-number">8.</span> <span class="toc-text">渐进式骨架屏过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义push转场"><span class="toc-number">9.</span> <span class="toc-text">自定义push转场</span></a></li></ol>
         
     </div>
 </aside>
@@ -139,19 +139,22 @@
 
 </li>
 </ul>
-<h2 id="异步处理"><a href="#异步处理" class="headerlink" title="异步处理"></a>异步处理</h2><ul>
+<h2 id="异步处理任务"><a href="#异步处理任务" class="headerlink" title="异步处理任务"></a>异步处理任务</h2><ul>
 <li>对于一些必须处理的非UI操作，尽量放到子线程异步处理</li>
 </ul>
 <h2 id="精简声明周期方法"><a href="#精简声明周期方法" class="headerlink" title="精简声明周期方法"></a>精简声明周期方法</h2><ul>
 <li>精简viewDidLoad</li>
 <li>精简viewWillAppear:</li>
 <li>精简viewDidAppear:<blockquote>
-<p>配合懒加载、预加载精简声明周期方法</p>
+<p>配合懒加载、预加载精简生命周期方法</p>
 </blockquote>
 <h2 id="资源预加载"><a href="#资源预加载" class="headerlink" title="资源预加载"></a>资源预加载</h2></li>
 <li>这里的资源指的是图片资源。对于一些存在轮播图或者banner区的目的页，可以优先加载一张缩略图作为占位；也可以在进入页面之前预加载一张轮播图以备使用。</li>
 </ul>
-<h2 id="UI布局优化（避免创建大量UI和布局）"><a href="#UI布局优化（避免创建大量UI和布局）" class="headerlink" title="UI布局优化（避免创建大量UI和布局）"></a>UI布局优化（避免创建大量UI和布局）</h2><h2 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h2><h2 id="loading动画过渡"><a href="#loading动画过渡" class="headerlink" title="loading动画过渡"></a>loading动画过渡</h2><h2 id="渐进式骨架屏过渡"><a href="#渐进式骨架屏过渡" class="headerlink" title="渐进式骨架屏过渡"></a>渐进式骨架屏过渡</h2><h2 id="自定义push转场"><a href="#自定义push转场" class="headerlink" title="自定义push转场"></a>自定义push转场</h2>
+<h2 id="UI布局优化（避免创建大量UI和布局）"><a href="#UI布局优化（避免创建大量UI和布局）" class="headerlink" title="UI布局优化（避免创建大量UI和布局）"></a>UI布局优化（避免创建大量UI和布局）</h2><h2 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h2><h2 id="loading动画过渡"><a href="#loading动画过渡" class="headerlink" title="loading动画过渡"></a>loading动画过渡</h2><h2 id="渐进式骨架屏过渡"><a href="#渐进式骨架屏过渡" class="headerlink" title="渐进式骨架屏过渡"></a>渐进式骨架屏过渡</h2><h2 id="自定义push转场"><a href="#自定义push转场" class="headerlink" title="自定义push转场"></a>自定义push转场</h2><ul>
+<li>iOS的push动画执行完毕之后才会调用viewController的viewDidLoad方法。且原生的导航push动画在性能较差的机型上可能会花费0.5s甚至更长时间。针对这种场景，可以先push导航控制器，然后自定义转场动画。</li>
+</ul>
+
         
     </section>
 </article>
