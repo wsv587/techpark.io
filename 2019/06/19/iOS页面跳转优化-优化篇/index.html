@@ -11,7 +11,7 @@
     <meta name="author" content="wsv587">
     <meta name="version" content="1.0.0">
     <meta name="keywords" content>
-    <meta name="description" content="前言页面跳转优化包括资源预加载、自定义push转场、loading动画过渡、骨架屏占位、网络请求前置、网络请求后置、异步处理任务、精简生命周期方法、懒加载以及UI布局优化等方向。优化方向资源预加载这里的资源指的是图片资源。对于一些存在轮播图或者banner区的目的页，可以优先加载一张缩略图作为占位；也可以在进入页面之前预加载一张轮播图以备使用。自定义push转场iOS的push动画执行完毕之后才会调用viewController的viewDidLoad方法。且原生的导航push动...">
+    <meta name="description" content="前言页面跳转优化包括资源预加载、自定义push转场、loading动画过渡、骨架屏占位、网络请求前置、网络请求后置、异步处理任务、精简生命周期方法、懒加载以及UI布局优化等方向。优化方向资源预加载这里的资源指的是图片资源。对于一些存在轮播图或者banner区的目的页，可以优先加载一张缩略图作为占位；也可以在进入页面之前预加载一张轮播图以备使用。自定义push转场iOS的push动画执行完毕之后才会调用viewController的viewDidLoad方法。且原生的导航pus...">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 
@@ -122,6 +122,8 @@
 <h2 id="优化方向"><a href="#优化方向" class="headerlink" title="优化方向"></a>优化方向</h2><h3 id="资源预加载"><a href="#资源预加载" class="headerlink" title="资源预加载"></a>资源预加载</h3><ul>
 <li>这里的资源指的是图片资源。对于一些存在轮播图或者banner区的目的页，可以优先加载一张缩略图作为占位；也可以在进入页面之前预加载一张轮播图以备使用。</li>
 </ul>
+<a id="more"></a>
+
 <h3 id="自定义push转场"><a href="#自定义push转场" class="headerlink" title="自定义push转场"></a>自定义push转场</h3><ul>
 <li>iOS的push动画执行完毕之后才会调用viewController的viewDidLoad方法。且原生的导航push动画在性能较差的机型上可能会花费0.5s甚至更长时间。针对这种场景，可以先push导航控制器，然后自定义转场动画。</li>
 </ul>
@@ -142,8 +144,6 @@
 <li>网络请求前置<blockquote>
 <p>通常网络请求的发起是在viewController的viewDidLoad及其之后。根据实际业务场景，可以考虑将网络请求前置到loadView甚至是init阶段。如果网络数据返回页面依旧未显示，可以暂时保存数据，待到进入页面(viewDidLoad/viewWillAppear/viewDidAppear)时执行UI刷新。</p>
 </blockquote>
-<a id="more"></a>
-
 </li>
 </ul>
 <h3 id="异步处理任务"><a href="#异步处理任务" class="headerlink" title="异步处理任务"></a>异步处理任务</h3><ul>
