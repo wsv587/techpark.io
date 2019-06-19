@@ -253,7 +253,10 @@
 <li>移除无用图片</li>
 <li>移除相似图片</li>
 <li>部分大图由后端下发跳链（交互型icon不建议后端下发）</li>
-<li>图片压缩（压缩jpg图片）</li>
+<li>图片压缩（仅限压缩jpg图片）<blockquote>
+<p>Xcode在构建的过程中，有一个步骤叫做compile asset catalog。在这个步骤中，Xcode会自行对png图片作压缩，并且会压缩成能够快速读取渲染的格式。如果我们对png图片进行了压缩，那么Xcode在compile asset catalog阶段还是会对图片进行处理，而这个处理过程有可能导致我们压缩过的png图片反而变大。</p>
+</blockquote>
+</li>
 </ul>
 <h2 id="代码文件检查"><a href="#代码文件检查" class="headerlink" title="代码文件检查"></a>代码文件检查</h2><ul>
 <li>移除无用文件和模块</li>
