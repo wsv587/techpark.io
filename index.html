@@ -185,7 +185,9 @@
 <li>异步发起网络请求</li>
 <li>能延后的请求延后处理</li>
 <li>能合并的接口合并请求</li>
-</ul>
+<li>网络请求前置<blockquote>
+<p>通常网络请求的发起是在viewController的viewDidLoad及其之后。根据实际业务场景，可以考虑将网络请求前置到loadView甚至是init阶段。如果网络数据返回页面依旧未显示，可以暂时保存数据，待到进入页面(viewDidLoad/viewWillAppear/viewDidAppear)时执行UI刷新。</p>
+</blockquote></li></ul>
         
         <p class="article-more-link">
             <a href="/2019/06/19/iOS页面跳转优化-优化篇/#more">
