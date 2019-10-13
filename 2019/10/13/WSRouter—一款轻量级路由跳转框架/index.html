@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>WSRouter—一款轻量级路由跳转框架 | 技术线博客</title>
+    <meta name="author" content="wsv587">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="简介大约6个月前，笔者写了一个基于url-block的路由跳转框架，命名为WSRouter。这是一个轻量级框架，仅包含4个.m文件共400多行代码。虽然这个框架很轻，但并不代表其功能不完备，相反，这个框架的功能完全可以应付我们日常的开发需要。无论是对于项目使用还是学习参考，WSRouter都是一个不错的选择。目前路由跳转方案有很多，大致分为4中：基于URL（url-controller、url-block）的方案、基于target-action的方案、protocol-class方案。本文...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    <link rel="alternate" href="/atom.xml" title="技术线博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">技术线博客</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/iOS">
+                <span class="nav-text">iOS</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/front-end">
+                <span class="nav-text">前端</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/back-end">
+                <span class="nav-text">后端</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/leader">
+                <span class="nav-text">领导</span>
+            </a>
+        
+            <a class="nav-item" href="/tags">
+                <span class="nav-text">标签</span>
+            </a>
+        
+            <a class="nav-item" href="/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+            <a class="nav-item" href="/about">
+                <span class="nav-text">关于</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#push转场"><span class="toc-number">3.1.</span> <span class="toc-text">push转场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#带回调的转场"><span class="toc-number">3.2.</span> <span class="toc-text">带回调的转场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#modal转场"><span class="toc-number">3.3.</span> <span class="toc-text">modal转场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同一个block跳转不同的页面"><span class="toc-number">3.4.</span> <span class="toc-text">同一个block跳转不同的页面</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            WSRouter—一款轻量级路由跳转框架
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/2019/10/13/WSRouter—一款轻量级路由跳转框架/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-10-13T11:25:34.000Z" itemprop="datePublished">2019-10-13</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/路由/">路由</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>大约6个月前，笔者写了一个基于url-block的路由跳转框架，命名为<a href="https://github.com/wsv587/WSRouter" target="_blank" rel="noopener">WSRouter</a>。这是一个轻量级框架，仅包含4个.m文件共400多行代码。虽然这个框架很轻，但并不代表其功能不完备，相反，这个框架的功能完全可以应付我们日常的开发需要。无论是对于项目使用还是学习参考，WSRouter都是一个不错的选择。<br>目前路由跳转方案有很多，大致分为4中：基于URL（url-controller、url-block）的方案、基于target-action的方案、protocol-class方案。本文所说的WSRouter是基于url-block的跳转方案。本文不对这些方案的优缺点进行对比，仅对WSRouter的基本功能和实现做一些简介，欢迎大家使用或star。</p>
+<a id="more"></a>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>基于URL-Controller的路由跳转本质上是有一个路由中介者管理着这些ViewController与URL的映射关系。每一个ViewController都有一个与之对应的URL。每添加一个ViewController我们都要注册一个能够唯一标识这个ViewController的URL到映射表中。如果是基于URL-block的方案，这个映射表中保存的是url-block的关系。当通过URL执行页面转场时，我们通过解析URL中的scheme、host、path。把这3者拼接成scheme://host/path的形式去注册表中查找对应的block或controller（如果是url-block关系，则这个block会返回一个controller）。然后解析URL中的query参数，用query参数配置这个ViewController对象。如果你对URL中的scheme、host、path、query等URL的各个部分不甚了解，下面的例子可以帮助你：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"ws://www.ws.com/first?uid=999&amp;bid=666"</span>];</span><br><span class="line"><span class="keyword">id</span> query = url.query;               <span class="comment">// uid=999&amp;bid=666</span></span><br><span class="line"><span class="keyword">id</span> scheme = url.scheme;             <span class="comment">// ws</span></span><br><span class="line"><span class="keyword">id</span> host = url.host;                 <span class="comment">// www.ws.com</span></span><br><span class="line"><span class="keyword">id</span> path = url.path;                 <span class="comment">// /first</span></span><br><span class="line"><span class="keyword">id</span> absString = url.absoluteString;  <span class="comment">// WS://www.ws.com/first?uid=999&amp;bid=666</span></span><br><span class="line"><span class="keyword">id</span> absUrl = url.absoluteURL;        <span class="comment">// WS://www.ws.com/first?uid=999&amp;bid=666</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>下面的例子中，先在+(void)load方法中注册了url和block的映射关系。然后调用<code>transferFromViewController:toURL:</code>方法执行跳转。需要注意的是，我们在block的实现中创建了一个<strong>对应的控制器</strong>实例，然后用URL.query对控制器进行配置。<strong>通常，我们将需要传递个目的控制器的参数都拼接到URL.query中</strong>。</p>
+<h3 id="push转场"><a href="#push转场" class="headerlink" title="push转场"></a>push转场</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"WSRouter.h"</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)load &#123;</span><br><span class="line">[<span class="keyword">self</span> registerRouter];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册路由</span></span><br><span class="line">+ (<span class="keyword">void</span>)registerRouter &#123;</span><br><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"ws://www.ws.com/first"</span>];    </span><br><span class="line"></span><br><span class="line">[WSRouter registerRouterWithPrefixURL:url handler:^<span class="built_in">UIViewController</span> *(<span class="built_in">NSURL</span> *URL, <span class="built_in">UIViewController</span> *sourceViewController) &#123;</span><br><span class="line"><span class="comment">// 实例化控制器</span></span><br><span class="line">WSPushedViewController *destViewController = [[WSPushedViewController alloc] init];</span><br><span class="line"><span class="comment">// 转场</span></span><br><span class="line">[WSRouter transferViewController:destViewController</span><br><span class="line">fromViewController:sourceViewController</span><br><span class="line">transition:WSTransitionPush];</span><br><span class="line">destViewController.params = [<span class="built_in">NSString</span> ws_parameterFromURLQuery:URL.query];</span><br><span class="line"><span class="keyword">return</span> destViewController;</span><br><span class="line">&#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行跳转</span></span><br><span class="line">[WSRouter transferFromViewController:<span class="keyword">self</span></span><br><span class="line">toURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"WS://www.ws.com/first?uid=666"</span>]];</span><br></pre></td></tr></table></figure>
+
+<h3 id="带回调的转场"><a href="#带回调的转场" class="headerlink" title="带回调的转场"></a>带回调的转场</h3><p>还是上面那个例子，有时候我们从目的控制器返回到上一个控制器时，需要执行某些回调，我们仅需要把上例的<code>transferFromViewController:toURL:</code>换成<code>transferFromViewController:toURL:viewWillDisappearCallBack:</code>。这样在页面退出是即可执行回调通知上一个控制器执行一些操作。此外除了<code>viewWillDisappearCallBack</code>之外，WSRouter还支持<code>viewDidDisappearCallBack</code>。其实现使用了Method swizzling。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[WSRouter transferFromViewController:<span class="keyword">self</span></span><br><span class="line">toURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"WS://www.ws.com/first?uid=666"</span>]</span><br><span class="line">viewWillDisappearCallBack:^(<span class="built_in">UIViewController</span> *destViewController, <span class="keyword">id</span> callbackData) &#123;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,callbackData);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h3 id="modal转场"><a href="#modal转场" class="headerlink" title="modal转场"></a>modal转场</h3><p>如果需要以modal的方式转场，那么仅需要在注册的block中把transition改为WSTransitionPresent即可。如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">void</span>)registerRouter &#123;</span><br><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"WS://www.ws.com/second"</span>];</span><br><span class="line">[WSRouter registerRouterWithPrefixURL:url handler:^<span class="built_in">UIViewController</span> *(<span class="built_in">NSURL</span> *URL, <span class="built_in">UIViewController</span> *sourceViewController) &#123;</span><br><span class="line"><span class="built_in">UIViewController</span> *destViewController = [[WSPresentedViewController alloc] init];</span><br><span class="line">[WSRouter transferViewController:destViewController</span><br><span class="line">fromViewController:sourceViewController</span><br><span class="line">transition:WSTransitionPresent];</span><br><span class="line"><span class="keyword">return</span> destViewController;</span><br><span class="line">&#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="同一个block跳转不同的页面"><a href="#同一个block跳转不同的页面" class="headerlink" title="同一个block跳转不同的页面"></a>同一个block跳转不同的页面</h3><p>值得注意的是，并不是注册一个block只能跳转同一个viewController。我们也可以根据实际情况（比如url中的query参数不同）选择跳转不同的页面，WSRouter也是支持的。但是笔者并不支持这样做。如果我们的工程中存在一个block中根据if…else…语句跳转了不同的页面，那么我们可以考虑对这些不同的页面分开注册。如下：<br>block中根据query中的web字段是否为ture来区分是否要跳转webViewController。这是一种解决方案，但更好的解决方案是对这两个控制器分开注册。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">void</span>)registerRouter &#123;</span><br><span class="line"><span class="comment">// example: url ws://www.ws.com/detail?web=1&amp;uid=999</span></span><br><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"ws://www.ws.com/third"</span>];</span><br><span class="line">[WSRouter registerRouterWithPrefixURL:url handler:^<span class="built_in">UIViewController</span> *(<span class="built_in">NSURL</span> *URL, <span class="built_in">UIViewController</span> *sourceViewController) &#123;</span><br><span class="line"><span class="built_in">UIViewController</span> *destViewController = <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *params = [<span class="built_in">NSString</span> ws_parameterFromURLQuery:URL.query];</span><br><span class="line"><span class="keyword">if</span> ([params[<span class="string">@"web"</span>] boolValue]) &#123;</span><br><span class="line">destViewController = [[WSWebViewController alloc] init];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">destViewController = [[WSPushedViewController alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[WSRouter transferViewController:destViewController</span><br><span class="line">fromViewController:sourceViewController</span><br><span class="line">transition:WSTransitionPush];</span><br><span class="line"><span class="keyword">return</span> destViewController;</span><br><span class="line">&#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>注意</code>：注册的URL必须是有效的，需要包括scheme、host、path。如果目的控制器需要业务参数，我们还要在跳转URL中携带query部分。</p>
+
+        
+    </section>
+</article>
+
+
+
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "7fbe80427f54741e289f",
+        clientSecret: "f34ed5fd92e54c9000bd37ba951948cb939deff5",
+        repo: "wsv587.github.io",
+        owner: "wsv587",
+        admin: ["wsv587"],
+        id: "2019/10/13/WSRouter—一款轻量级路由跳转框架",
+        distractionFreeMode: true,
+        title: "WSRouter—一款轻量级路由跳转框架",
+        body: "http://yoursite.com/2019/10/13/WSRouter—一款轻量级路由跳转框架/",
+        labels: ["iOS","路由"]
+    }).render('comments');
+    </script>
+</div>
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e4027971a230b210f4671f485b33846a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+            
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp();
+            }, 3000);
+        }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>
