@@ -124,51 +124,6 @@
     <header class="article-header">
         
         <h1 itemprop="name">
-            <a href="/2020/05/23/详解RN中nativemodule暴露原理/">详解RN中nativemodule暴露原理</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2020-05-23T11:26:28.000Z" itemprop="datePublished">2020-05-23</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/ReactNative/">ReactNative</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>我们知道，RN可以调用Native侧的方法。并且RN框架也给我们提供了这一能力，只要我们按照某些约定在native侧实现一个方法，那么就可以在JS侧顺利调用。如下实现了一个简单的native模块：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;React/RCTBridgeModule.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NativeLogModule</span> : <span class="title">NSObject</span>&lt;<span class="title">RCTBridgeModule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">"NativeLogBridge.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NativeLogModule</span></span></span><br><span class="line">RCT_EXPORT_MODULE()</span><br><span class="line">RCT_EXPORT_METHOD(nativeLog:(<span class="keyword">id</span>)obj) &#123;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"开始输出日志："</span>);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,obj);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"日志输出完毕！"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-
-<p>​</p>
-        
-        <p class="article-more-link">
-            <a href="/2020/05/23/详解RN中nativemodule暴露原理/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
             <a href="/2020/05/23/详解ReactNative渲染原理/">详解ReactNative渲染原理</a>
         </h1>
         
@@ -204,6 +159,51 @@
         
         <p class="article-more-link">
             <a href="/2020/05/23/详解ReactNative渲染原理/#more">
+                <span class="vm">阅读更多</span>
+                <i class="icon-arrow-double-right vm"></i>    
+            </a>
+        </p>
+        
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            <a href="/2020/04/12/详解RN中nativemodule暴露原理/">详解RN中nativemodule暴露原理</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2020-04-12T11:26:28.000Z" itemprop="datePublished">2020-04-12</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/ReactNative/">ReactNative</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>我们知道，RN可以调用Native侧的方法。并且RN框架也给我们提供了这一能力，只要我们按照某些约定在native侧实现一个方法，那么就可以在JS侧顺利调用。如下实现了一个简单的native模块：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;React/RCTBridgeModule.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NativeLogModule</span> : <span class="title">NSObject</span>&lt;<span class="title">RCTBridgeModule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">"NativeLogBridge.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NativeLogModule</span></span></span><br><span class="line">RCT_EXPORT_MODULE()</span><br><span class="line">RCT_EXPORT_METHOD(nativeLog:(<span class="keyword">id</span>)obj) &#123;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"开始输出日志："</span>);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,obj);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"日志输出完毕！"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+        
+        <p class="article-more-link">
+            <a href="/2020/04/12/详解RN中nativemodule暴露原理/#more">
                 <span class="vm">阅读更多</span>
                 <i class="icon-arrow-double-right vm"></i>    
             </a>
