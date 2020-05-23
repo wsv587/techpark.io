@@ -123,6 +123,8 @@
 <p>本文篇幅很长的原因是笔者贴出了大量的RN源码。文章中的源码已经做了精简，如果想看完整的代码还是建议参考RN源码。笔者主要删除了源码中与逻辑无强关联的代码。比如debug环境的宏、锁、调试相关的代码、健壮性相关的代码、错误处理相关的代码、代码执行耗时相关的代码。删除这些代码不会影响对源码的阅读和理解，请大家放心。</p>
 <p>阅读这篇文章你最好具备以下条件：你应该是一个iOS开发者，本文是站在一个iOS工程的角度分析RN的源码，当然如果你能看懂Objective-C代码也是可以的。你应该对RN有所了解，最好是使用RN开发过一些需求。你应该对JS有所了解，本文会涉及少量JS代码。最后，你最好具备一些C++的知识，RN源码中存在大量的C++代码，不需要会写，了解C++语法能看懂C++代码即可。当然，如果你认为万物皆对象，以上条件都可以忽略，那么让我们开始吧》》》</p>
 <p><strong>本文基于React Native 0.61.5进行分析</strong>。</p>
+<a id="more"></a>
+
 <h1 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h1><p>本文中主要涉及到以下几个类:RCTBridge、RCTCxxBridge、Instance、NativeToJsBridge、JsToNativeBridge、JSIExecutor、RCTRootView。他们的关系大概如下（JSIExecutor是本文涉及到的最内层的类）：</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/1055199-f33d36a7d73d5585.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="React Native关键类关系图"></p>
 <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>我们新建一个名为NewProject的RN的iOS工程。可以看出AppDelegate.m的application: didFinishLaunchingWithOptions:方法实现是这样的：</p>
