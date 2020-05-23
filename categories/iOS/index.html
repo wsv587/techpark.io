@@ -124,6 +124,56 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2020/05/23/详解ReactNative渲染原理/">详解ReactNative渲染原理</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2020-05-23T10:57:47.000Z" itemprop="datePublished">2020-05-23</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/ReactNative/">ReactNative</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="http://wsv587.github.io/2020/03/04/%E8%AF%A6%E8%A7%A3ReactNative%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">《详解React Native初始化和通信机制》</a>中我们详细的介绍了React Native的初始化和通信机制。如果对通信机制不了的的读者可以先去阅读通信机制。</p>
+<p>React Native 本质上是以 React 为框架，笔者的理解是React Native通过JS(React)实现业务逻辑；通过Native实现视图。所以最终开发出来的页面视图是是纯Native组件。本文会通过源码分析的方式剖析React Native中视图的创建、更新、渲染原理。</p>
+<h1 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h1><p>JSX是一个 JavaScript 的语法扩展，可以简单理解为 JavaScript + XML 的语法糖。React虽然不强制要求使用JSX，但官方建议使用，因为JSX可以很好地描述 UI 应该呈现出它应有交互的本质形式。JSX 可能会使人联想到模版语言，但它具有 JavaScript 的全部功能。如下就是一个JSX语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>由于JSX是一种语法糖，所以在bundle打包过程中，以上的JSX语法会被Babel转换成普通JS语句，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = React.createElement(&quot;h1&quot;, null, &quot;Hello, world!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>可以通过<a href="https://babeljs.io/repl/#?presets=react&code_lz=GYVwdgxgLglg9mABACwKYBt1wBQEpEDeAUIogE6pQhlIA8AJjAG4B8AEhlogO5xnr0AhLQD0jVgG4iAXyJA" target="_blank" rel="noopener">babel compiler</a>体验在线JSX转换。</p>
+        
+        <p class="article-more-link">
+            <a href="/2020/05/23/详解ReactNative渲染原理/#more">
+                <span class="vm">阅读更多</span>
+                <i class="icon-arrow-double-right vm"></i>    
+            </a>
+        </p>
+        
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2020/03/04/详解ReactNative初始化和通信机制/">详解ReactNative初始化和通信机制</a>
         </h1>
         
@@ -490,48 +540,6 @@ Podfile可以非常简单,下面的例子增加了Alamofire依赖库到单个tar
         
         <p class="article-more-link">
             <a href="/2019/06/11/CocoaPods之PodfilePodfile-lock/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/11/cocoapods从安装到使用/">cocoapods从安装到使用</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-11T14:30:40.000Z" itemprop="datePublished">2019-06-11</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/cocoapods/">cocoapods</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <h1 id="什么是cocoapods"><a href="#什么是cocoapods" class="headerlink" title="什么是cocoapods"></a>什么是cocoapods</h1><p>CocoaPods是一个用来帮助我们管理第三方依赖库的工具。它可以解决库与库之间的依赖关系，下载库的源代码，同时通过创建一个Xcode的workspace来将这些第三方库和我们的工程连接起来，供我们开发使用。这么说可能还不是很理解，当我们开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，A依赖B，B又依赖C……。总之笔者的意思，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本依赖库，然后一个个重新加入到项目中，费时费力，操作繁琐且容易出错。如果能有什么工具能代替我们手工去解决这些依赖和更新问题，那我们开发效率将如有神助。这就是CocoaPods的作用。<br>总而言之，使用CocoaPods的目的是让我们能自动化的、集中的、直观的管理第三方开源库。</p>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/11/cocoapods从安装到使用/#more">
                 <span class="vm">阅读更多</span>
                 <i class="icon-arrow-double-right vm"></i>    
             </a>

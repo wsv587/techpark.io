@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>详解ReactNative渲染原理 | 技术线博客</title>
+    <meta name="author" content="wsv587">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="前言在《详解React Native初始化和通信机制》中我们详细的介绍了React Native的初始化和通信机制。如果对通信机制不了的的读者可以先去阅读通信机制。React Native 本质上是以 React 为框架，笔者的理解是React Native通过JS(React)实现业务逻辑；通过Native实现视图。所以最终开发出来的页面视图是是纯Native组件。本文会通过源码分析的方式剖析React Native中视图的创建、更新、渲染原理。JSXJSX是一个 JavaScrip...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    <link rel="alternate" href="/atom.xml" title="技术线博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">技术线博客</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/iOS">
+                <span class="nav-text">iOS</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/front-end">
+                <span class="nav-text">前端</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/back-end">
+                <span class="nav-text">后端</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/leader">
+                <span class="nav-text">领导</span>
+            </a>
+        
+            <a class="nav-item" href="/tags">
+                <span class="nav-text">标签</span>
+            </a>
+        
+            <a class="nav-item" href="/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+            <a class="nav-item" href="/about">
+                <span class="nav-text">关于</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JSX"><span class="toc-number">2.</span> <span class="toc-text">JSX</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#React-vs-ReactNative"><span class="toc-number">3.</span> <span class="toc-text">React vs ReactNative</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AppRegistry"><span class="toc-number">4.</span> <span class="toc-text">AppRegistry</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCTComponentData"><span class="toc-number">5.</span> <span class="toc-text">RCTComponentData</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCTRootView"><span class="toc-number">6.</span> <span class="toc-text">RCTRootView</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RCTRootView-amp-RCTRootContentView"><span class="toc-number">6.1.</span> <span class="toc-text">RCTRootView&amp;RCTRootContentView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RCTShadowView-amp-RCTShadowRootView"><span class="toc-number">6.2.</span> <span class="toc-text">RCTShadowView&amp;RCTShadowRootView</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#渲染过程"><span class="toc-number">7.</span> <span class="toc-text">渲染过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flush-UI-Block"><span class="toc-number">8.</span> <span class="toc-text">Flush UI Block</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">9.</span> <span class="toc-text">参考文章</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            详解ReactNative渲染原理
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/2020/05/23/详解ReactNative渲染原理/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2020-05-23T10:57:47.000Z" itemprop="datePublished">2020-05-23</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/ReactNative/">ReactNative</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="http://wsv587.github.io/2020/03/04/%E8%AF%A6%E8%A7%A3ReactNative%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">《详解React Native初始化和通信机制》</a>中我们详细的介绍了React Native的初始化和通信机制。如果对通信机制不了的的读者可以先去阅读通信机制。</p>
+<p>React Native 本质上是以 React 为框架，笔者的理解是React Native通过JS(React)实现业务逻辑；通过Native实现视图。所以最终开发出来的页面视图是是纯Native组件。本文会通过源码分析的方式剖析React Native中视图的创建、更新、渲染原理。</p>
+<h1 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h1><p>JSX是一个 JavaScript 的语法扩展，可以简单理解为 JavaScript + XML 的语法糖。React虽然不强制要求使用JSX，但官方建议使用，因为JSX可以很好地描述 UI 应该呈现出它应有交互的本质形式。JSX 可能会使人联想到模版语言，但它具有 JavaScript 的全部功能。如下就是一个JSX语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>由于JSX是一种语法糖，所以在bundle打包过程中，以上的JSX语法会被Babel转换成普通JS语句，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = React.createElement(&quot;h1&quot;, null, &quot;Hello, world!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>可以通过<a href="https://babeljs.io/repl/#?presets=react&code_lz=GYVwdgxgLglg9mABACwKYBt1wBQEpEDeAUIogE6pQhlIA8AJjAG4B8AEhlogO5xnr0AhLQD0jVgG4iAXyJA" target="_blank" rel="noopener">babel compiler</a>体验在线JSX转换。</p>
+<a id="more"></a>
+
+<h1 id="React-vs-ReactNative"><a href="#React-vs-ReactNative" class="headerlink" title="React vs ReactNative"></a>React vs ReactNative</h1><p><img src="https://upload-images.jianshu.io/upload_images/1055199-a7fe1d821fb361b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<p>如上图，参考自<a href="https://zhuanlan.zhihu.com/p/32749940" target="_blank" rel="noopener">这篇文章</a>。上图呈现了React和ReactNative的大致渲染过程。如果你了解React.js 的渲染过程，那么去理解ReactNative就很容易。蓝色是React具备的能力，黄色是ReactNative特有的能力。虚线框里面的是React和ReactNative通用的部分。不同的是Render，ReactNative的View不是浏览器渲染的，而是Native侧渲染的view。所以ReactNative 可以理解是 React.js 在Native上的一种翻译，为了完成这种React到Native语法的解释，native侧也就必须具备解释这些渲染语法的能力，常见的就是yoga。 因为那个O(n)复杂度的Diff算法是基于 Virtual DOM, 也就是ReactElement在内存中的一种组织形式，所以这一部分也被利用在了ReactNative上。综上，不难看出ReactNative和React的最大的差别在于渲染上的差别。<strong>即React使用浏览器进行渲染，而ReactNative使用Native进行渲染。</strong></p>
+<p><strong>在上一篇文章中我们说到，JS代码加载完毕后会发送一个通知给RCTRootView。RCTRootView会执行runApplication相关的逻辑：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// RCTRootView.m</span><br><span class="line"></span><br><span class="line">- (void)javaScriptDidLoad:(NSNotification *)notification</span><br><span class="line">&#123;</span><br><span class="line">RCTAssertMainQueue();</span><br><span class="line">RCTBridge *bridge = notification.userInfo[@&quot;bridge&quot;];</span><br><span class="line">if (bridge != _contentView.bridge) &#123;</span><br><span class="line">[self bundleFinishedLoading:bridge];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)bundleFinishedLoading:(RCTBridge *)bridge</span><br><span class="line">&#123;</span><br><span class="line">// 省略创建RCTRootContentView...</span><br><span class="line"></span><br><span class="line">[self runApplication:bridge];</span><br><span class="line"></span><br><span class="line">// 省略添加一个RCTRootContentView...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)runApplication:(RCTBridge *)bridge</span><br><span class="line">&#123;</span><br><span class="line">NSString *moduleName = _moduleName ?: @&quot;&quot;; // 这里是@&quot;NewProject&quot;</span><br><span class="line">NSDictionary *appParameters = @&#123;</span><br><span class="line">@&quot;rootTag&quot;: _contentView.reactTag,</span><br><span class="line">@&quot;initialProps&quot;: _appProperties ?: @&#123;&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">[bridge enqueueJSCall:@&quot;AppRegistry&quot;</span><br><span class="line">method:@&quot;runApplication&quot;</span><br><span class="line">args:@[moduleName, appParameters]</span><br><span class="line">completion:NULL];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>RCTRootView</code>的<code>runApplication:</code>方法以<code>_moduleName</code>、<code>_contentView.reactTag</code>以及<code>_appProperties</code>为参数调用 JS 侧<code>AppRegistry</code>的<code>runApplication</code>方法。</p>
+<p>说到AppRegistry，我们不得不跳到JS侧</p>
+<p>在 RN 中，根组件(root components)需要通过<code>AppRegistry</code>的<code>registerComponent</code>方法进行注册。所谓根组件，就是 Native to JS 的入口，Native 在加载 RN bundle 之后可通过<code>AppRegistry</code>的<code>runApplication</code>方法运行指定的根组件，从而进入 RN 的世界。</p>
+<h1 id="AppRegistry"><a href="#AppRegistry" class="headerlink" title="AppRegistry"></a>AppRegistry</h1><p>注册根组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">// index.js</span><br><span class="line"></span><br><span class="line">import &#123;AppRegistry&#125; from &apos;react-native&apos;;</span><br><span class="line">import App from &apos;./App&apos;;</span><br><span class="line">import &#123;name as appName&#125; from &apos;./app.json&apos;;</span><br><span class="line"></span><br><span class="line">// 此处appName需要和Native侧的保持一致，即“NewProject”</span><br><span class="line">AppRegistry.registerComponent(appName, () =&gt; App);</span><br><span class="line"></span><br><span class="line">/************************************************************************/</span><br><span class="line"></span><br><span class="line">// 路径：react-native/Libraries/ReactNative/AppRegistry.js</span><br><span class="line">// 代码有精简...</span><br><span class="line">const AppRegistry = &#123;</span><br><span class="line">registerComponent(</span><br><span class="line">appKey: string,</span><br><span class="line">componentProvider: ComponentProvider,</span><br><span class="line">section?: boolean,</span><br><span class="line">): string &#123;</span><br><span class="line">let scopedPerformanceLogger = createPerformanceLogger();</span><br><span class="line">// 以appKey为key注册一个名为run的箭头函数</span><br><span class="line">runnables[appKey] = &#123;</span><br><span class="line">componentProvider,</span><br><span class="line">run: appParameters =&gt; &#123;</span><br><span class="line">// run本质上是调用的renderApplication函数</span><br><span class="line">renderApplication(</span><br><span class="line">componentProviderInstrumentationHook(</span><br><span class="line">componentProvider,</span><br><span class="line">scopedPerformanceLogger,</span><br><span class="line">),</span><br><span class="line">appParameters.initialProps,</span><br><span class="line">appParameters.rootTag,</span><br><span class="line">wrapperComponentProvider &amp;&amp; wrapperComponentProvider(appParameters),</span><br><span class="line">appParameters.fabric,</span><br><span class="line">showFabricIndicator,</span><br><span class="line">scopedPerformanceLogger,</span><br><span class="line">);</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br><span class="line">if (section) &#123;</span><br><span class="line">sections[appKey] = runnables[appKey];</span><br><span class="line">&#125;</span><br><span class="line">return appKey;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">runApplication(appKey: string, appParameters: any): void &#123;</span><br><span class="line">// 代码有精简...</span><br><span class="line">runnables[appKey].run(appParameters);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上，不难看出AppRegistry是一个常量，以key-value的形式存储了若干个函数，包括registerComponent和runApplication。registerComponent中以appKey(此文中是”NewProject”)为key向注册表<code>runnables</code>中存储了一个对象。该对象主要包括以<code>run</code>为 key 存储的箭头函数，run中调用了<code>renderApplication</code>方法。所以在Native侧的RCTRootView中调用AppRegistry的runApplication最终会调用到renderApplication。</p>
+<blockquote>
+<p>注意：定义根组件时调用<code>AppRegistry.registerComponent</code>方法的 key 与在<code>RCTRootViewrunApplication:</code>中调用<code>AppRegistry#runApplication</code>时的 key 需要一致(在例子中都是<code>NewProject</code>)。只有appKey保持一致，<code>JS#runApplication</code>才能从注册表<code>runnables</code>中取出箭头函数执行渲染逻辑。</p>
+</blockquote>
+<p>上面说到runApplication最终调用renderApplication，让我们再来看下renderApplication的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 路径：react-native/Libraries/ReactNative/renderApplication.js</span><br><span class="line"></span><br><span class="line">function renderApplication&lt;Props: Object&gt;(</span><br><span class="line">RootComponent: React.ComponentType&lt;Props&gt;,</span><br><span class="line">initialProps: Props,</span><br><span class="line">rootTag: any,</span><br><span class="line">WrapperComponent?: ?React.ComponentType&lt;*&gt;,</span><br><span class="line">fabric?: boolean,</span><br><span class="line">showFabricIndicator?: boolean,</span><br><span class="line">scopedPerformanceLogger?: IPerformanceLogger,</span><br><span class="line">) &#123;</span><br><span class="line"></span><br><span class="line">const renderable = (</span><br><span class="line">&lt;PerformanceLoggerContext.Provider</span><br><span class="line">value=&#123;scopedPerformanceLogger ?? GlobalPerformanceLogger&#125;&gt;</span><br><span class="line">&lt;AppContainer rootTag=&#123;rootTag&#125; WrapperComponent=&#123;WrapperComponent&#125;&gt;</span><br><span class="line">&lt;RootComponent &#123;...initialProps&#125; rootTag=&#123;rootTag&#125; /&gt;</span><br><span class="line">&#123;fabric === true &amp;&amp; showFabricIndicator === true ? (</span><br><span class="line">&lt;ReactFabricIndicator /&gt;</span><br><span class="line">) : null&#125;</span><br><span class="line">&lt;/AppContainer&gt;</span><br><span class="line">&lt;/PerformanceLoggerContext.Provider&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">GlobalPerformanceLogger.startTimespan(&apos;renderApplication_React_render&apos;);</span><br><span class="line">if (fabric) &#123;</span><br><span class="line">require(&apos;../Renderer/shims/ReactFabric&apos;).render(renderable, rootTag);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">require(&apos;../Renderer/shims/ReactNative&apos;).render(renderable, rootTag);</span><br><span class="line">&#125;</span><br><span class="line">GlobalPerformanceLogger.stopTimespan(&apos;renderApplication_React_render&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = renderApplication;</span><br></pre></td></tr></table></figure>
+
+<p>不难看出，renderApplication最终是调用了ReactFabric或ReactNative的render方法。</p>
+<blockquote>
+<p>注意：值得注意的是，ReactFabric或ReactNative的render的方法并不是直接渲染我们传入的<code>RootComponent</code>，而是在其外面包了一层——<code>AppContainer</code>。
+<code>AppContainer</code>是一个 React Component，其中封装了Inspector、YellowBox等debug工具。我们最不愿看到的出错时的红色界面也是在该组件中加载的。</p>
+</blockquote>
+<p>下图是renderApplication函数的调用堆栈：<br><img src="https://upload-images.jianshu.io/upload_images/1055199-0a0204c58a3ab070.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="renderApplication调用栈"></p>
+<p>上述使用chrome远程调试的debug环境下调用到了<code>ReactNative#render</code>方法，我们看下ReactNative的render实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 路径：react-native/Libraries/Renderer/shims/ReactNative.js</span><br><span class="line"></span><br><span class="line">import type &#123;ReactNativeType&#125; from &apos;./ReactNativeTypes&apos;;</span><br><span class="line"></span><br><span class="line">let ReactNative;</span><br><span class="line"></span><br><span class="line">if (__DEV__) &#123;</span><br><span class="line">ReactNative = require(&apos;../implementations/ReactNativeRenderer-dev&apos;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">ReactNative = require(&apos;../implementations/ReactNativeRenderer-prod&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = (ReactNative: ReactNativeType)</span><br></pre></td></tr></table></figure>
+
+<p>我们看下在dev环境下的render的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 路径：react-native/Libraries/Renderer/implementations/ReactNativeRenderer-dev.js</span><br><span class="line">render: function(element, containerTag, callback) &#123;</span><br><span class="line">var root = roots.get(containerTag);</span><br><span class="line"></span><br><span class="line">if (!root) &#123;</span><br><span class="line">// TODO (bvaughn): If we decide to keep the wrapper component,</span><br><span class="line">// We could create a wrapper for containerTag as well to reduce special casing.</span><br><span class="line">root = createContainer(containerTag, LegacyRoot, false);</span><br><span class="line">roots.set(containerTag, root);</span><br><span class="line">&#125;</span><br><span class="line">updateContainer(element, root, null, callback);</span><br><span class="line"></span><br><span class="line">return getPublicRootInstance(root);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>然后经由render调用updateContainer方法，最后经过一系列方法的调用，最终调用到了ReactNativeRenderer-dev</p>
+<p>的createInstance，然后createInstance内部调用了UIManager.createView，其调用栈如下：</p>
+<p>通过下面调用栈可以看出，dev环境下render之后直到调用createView之前所有的方法调用都发生在ReactNativeRenderer-dev中。prod环境同理。<br><img src="https://upload-images.jianshu.io/upload_images/1055199-e2475547384d1b48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="JS侧调用createView"></p>
+<p>createView顾名思义就是创建一个真正的view，既然要创建视图，那么肯定是由native侧来实现的。createView把接收4个参数，分别是reactTag、rootTag、viewName、props。下面是native侧对createView的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">// RCTUIManager.m</span><br><span class="line">// 代码有精简</span><br><span class="line"></span><br><span class="line">RCT_EXPORT_METHOD(createView:(nonnull NSNumber *)reactTag</span><br><span class="line">viewName:(NSString *)viewName</span><br><span class="line">rootTag:(nonnull NSNumber *)rootTag</span><br><span class="line">props:(NSDictionary *)props)</span><br><span class="line">&#123;</span><br><span class="line">RCTComponentData *componentData = _componentDataByName[viewName];</span><br><span class="line"></span><br><span class="line">// Register shadow view</span><br><span class="line">RCTShadowView *shadowView = [componentData createShadowViewWithTag:reactTag];</span><br><span class="line">if (shadowView) &#123;</span><br><span class="line">[componentData setProps:props forShadowView:shadowView];</span><br><span class="line">_shadowViewRegistry[reactTag] = shadowView;</span><br><span class="line">RCTShadowView *rootView = _shadowViewRegistry[rootTag];</span><br><span class="line">shadowView.rootView = (RCTRootShadowView *)rootView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Dispatch view creation directly to the main thread instead of adding to</span><br><span class="line">// UIBlocks array. This way, it doesn&apos;t get deferred until after layout.</span><br><span class="line">__block UIView *preliminaryCreatedView = nil;</span><br><span class="line"></span><br><span class="line">void (^createViewBlock)(void) = ^&#123;</span><br><span class="line">// Do nothing on the second run.</span><br><span class="line">if (preliminaryCreatedView) &#123;</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br><span class="line">// 创建一个view</span><br><span class="line">preliminaryCreatedView = [componentData createViewWithTag:reactTag];</span><br><span class="line">// 将创建的view缓存在_viewRegistry中</span><br><span class="line">if (preliminaryCreatedView) &#123;</span><br><span class="line">self-&gt;_viewRegistry[reactTag] = preliminaryCreatedView;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// We cannot guarantee that asynchronously scheduled block will be executed</span><br><span class="line">// *before* a block is added to the regular mounting process (simply because</span><br><span class="line">// mounting process can be managed externally while the main queue is</span><br><span class="line">// locked).</span><br><span class="line">// So, we positively dispatch it asynchronously and double check inside</span><br><span class="line">// the regular mounting block.</span><br><span class="line"></span><br><span class="line">RCTExecuteOnMainQueue(createViewBlock);</span><br><span class="line"></span><br><span class="line">[self addUIBlock:^(__unused RCTUIManager *uiManager, __unused NSDictionary&lt;NSNumber *, UIView *&gt; *viewRegistry) &#123;</span><br><span class="line">createViewBlock();</span><br><span class="line"></span><br><span class="line">if (preliminaryCreatedView) &#123;</span><br><span class="line">[componentData setProps:props forView:preliminaryCreatedView];</span><br><span class="line">&#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[self _shadowView:shadowView didReceiveUpdatedProps:[props allKeys]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面createView方法涉及到2个类：RCTComponentData、RCTShadowView。此时我们有必要介绍一下这两个类的作用以及和他们相关的一些类。</p>
+<h1 id="RCTComponentData"><a href="#RCTComponentData" class="headerlink" title="RCTComponentData"></a>RCTComponentData</h1><p>在说RCTComponentData之前，我们有必要先说一下他和其他类的关系，如下图：<br><img src="https://upload-images.jianshu.io/upload_images/1055199-5b1e7925dc846c65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<p>上图取材于<a href="https://zxfcumtcs.github.io/2018/02/03/RNRendering/" target="_blank" rel="noopener">这篇文章</a> 。通过上面类图可以看出，RCTBridge依赖了RCTModuleData。RCTModuleData依赖（实现）了RCTBridgeModule协议。RCTViewManager、RCTUIManager、NativeModule都实现了RCTBridgeModule协议。且RCTViewManager、RCTUIManager、NativeModule都依赖了RCTBridge。</p>
+<p>RCTViewManager：负责管理ReactNative在native侧的view，包括RCTImageView、RCTTextView、RCTBaseTextInputView等。我们native侧封装的用于暴露给JS侧使用的原生视图组件也需要视同RCTViewManager来管理。通常需要自定义一个类继承自RCTViewManager。如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// RichTextLabelManager.h</span><br><span class="line"></span><br><span class="line">#import &lt;React/RCTViewManager.h&gt;</span><br><span class="line"></span><br><span class="line">@interface RichTextLabelManager : RCTViewManager</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// RichTextLabelManager.m</span><br><span class="line">#import &quot;RichTextLabelManager.h&quot;</span><br><span class="line">#import &quot;RichTextLabel.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation RichTextLabelManager</span><br><span class="line"></span><br><span class="line">RCT_EXPORT_MODULE()</span><br><span class="line"></span><br><span class="line">RCT_EXPORT_VIEW_PROPERTY(richText, NSString)</span><br><span class="line"></span><br><span class="line">- (dispatch_queue_t)methodQueue</span><br><span class="line">&#123;</span><br><span class="line">return dispatch_get_main_queue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UIView *)view</span><br><span class="line">&#123;</span><br><span class="line">RichTextLabel *label = [[RichTextLabel alloc] init];</span><br><span class="line">label.contentMode = UIViewContentModeRedraw;</span><br><span class="line">return label;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>RCTViewManager实现了RCTBridgeModule协议。该协议规定了一些宏和方法，包括常见的RCT_EXPORT_MODULE宏。因为RCTViewManager实现了协议方法，所以通过RCTViewManager及其子类，我们可以按照ReactNative的接口规范将native view暴露给JS。所以，我们在将native view暴露给JS侧使用的时候，通常是自定义一个RCTViewManager子类，然后实现RCTBridgeModule协议的方法。</p>
+<p>RCTUIManager：在 JS to Native 的渲染流程中，<code>RCTUIManager</code>起到重要作用：包括 Native View 的创建、布局、移除等操作都是通过<code>RCTUIManager</code>完成的。给RCTUIManager设置bridge的过程中，RCTUIManager会根据RCTViewManager生成一个与之对应的RCTComponentData对象。</p>
+<p>下面是RCTUIManager的setBridge:方法实现：</p>
+<p>通过<code>RCTUIManager#setBridge:</code>方法实现可知：所有的<code>RCTViewManager</code>都会以<code>RCTComponentData</code>格式储存在<code>RCTUIManager-&gt;_componentDataByName</code>中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// RCTUIManager.m</span><br><span class="line"></span><br><span class="line">- (void)setBridge:(RCTBridge *)bridge</span><br><span class="line">&#123;</span><br><span class="line">_bridge = bridge;</span><br><span class="line">// 省略若干行代码...</span><br><span class="line"></span><br><span class="line">// 从_bridge获取view managers</span><br><span class="line">_componentDataByName = [NSMutableDictionary new];</span><br><span class="line">for (Class moduleClass in _bridge.moduleClasses) &#123;</span><br><span class="line">if ([moduleClass isSubclassOfClass:[RCTViewManager class]]) &#123;</span><br><span class="line">RCTComponentData *componentData = [[RCTComponentData alloc] initWithManagerClass:moduleClass</span><br><span class="line">bridge:_bridge];</span><br><span class="line">_componentDataByName[componentData.name] = componentData;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 省略若干行代码...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>RCTUIManager</code>通过<code>RCTComponentData</code>操作<code>RCTViewManager</code>，包括创建组件（createView）、更新组件属性（updateView）等，具体内容后文会详细介绍。</p>
+<h1 id="RCTRootView"><a href="#RCTRootView" class="headerlink" title="RCTRootView"></a>RCTRootView</h1><p>再说RCShadowView之前，需要先了解下“真正的”view，RCTView、RCTRootView等。先看一下与之相关的类图：<br><img src="https://upload-images.jianshu.io/upload_images/1055199-820a70c651afc589.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<p>上图取材于<a href="https://zxfcumtcs.github.io/2018/02/03/RNRendering/" target="_blank" rel="noopener">这篇文章</a> 。如上图所示，RCTRootViewView和RCTView都继承自UIView。RCTRootContentView继承自RCTView。RCTRootView持有一个RCTRootContentView。</p>
+<p>RCTShadowView继承自NSObject，RCTRootShadowView继承自RCTShadowView.。</p>
+<p>让我们来梳理下他们的作用。</p>
+<h2 id="RCTRootView-amp-RCTRootContentView"><a href="#RCTRootView-amp-RCTRootContentView" class="headerlink" title="RCTRootView&amp;RCTRootContentView"></a>RCTRootView&amp;RCTRootContentView</h2><p>RCTRootView作为一个根视图，是一个ReactNative应用（模块）的入口。上篇文章<a href="https://cloud.tencent.com/developer/article/1603371" target="_blank" rel="noopener">《一篇文章详解React Native初始化和通信机制》</a>中说过，JSbundle加载完成后发送一个RCTJavaScriptDidLoadNotification通知给RCTRootView。RCTRootView收到通知后创建了<code>RCTRootContentView</code>并作为 subview 添加到<code>RCTRootView</code>上，同时调用了<code>runApplication</code>方法。</p>
+<p><code>RCTRootView#runApplication:</code>方法以<code>_moduleName</code>、<code>_contentView.reactTag</code>以及<code>_appProperties</code>为参数调用 JS 模块<code>AppRegistry</code>的<code>runApplication</code>方法。</p>
+<p>上面说过，RN root components 都需要通过<code>AppRegistry</code>模块的<code>registerComponent</code>方法进行注册。</p>
+<h2 id="RCTShadowView-amp-RCTShadowRootView"><a href="#RCTShadowView-amp-RCTShadowRootView" class="headerlink" title="RCTShadowView&amp;RCTShadowRootView"></a>RCTShadowView&amp;RCTShadowRootView</h2><p>在 ReactNative中，每个 UI 组件(view)实例都对应一个<code>RCTShadowView</code>(或其派生类)实例，从上面类图可知，虽然其命名以<code>View</code>结尾，但实质并非 View，而是继承自<code>NSObject</code>。其主要功能是通过<a href="https://github.com/facebook/yoga" target="_blank" rel="noopener">facebook-Yoga</a>在子线程(<code>shadow thread</code>)进行布局相关的计算。所以RCTShadowView主要接管了UI视图的布局计算工作。就像UIView接管了CALayer的事件处理工作一样。RCTShadowRootView顾名思义，专门负责RCTRootView的布局计算。</p>
+<h1 id="渲染过程"><a href="#渲染过程" class="headerlink" title="渲染过程"></a>渲染过程</h1><p><img src="https://upload-images.jianshu.io/upload_images/1055199-9586463a2cb37dec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<p>前文已提到，<code>RCTUIManager#createView:viewName:rootTag:props:</code>只是创建了目标 view 并添加到<code>_viewRegistry</code>中(仅此而以)。</p>
+<p>从上图可以看到，JS 中的<code>ReactNativeBaseComponent</code>模块在调用<code>RCTUIManager</code>的<code>createView:viewName:rootTag:props:</code>方法创建目标 view 之后，还会调用<code>RCTUIManager</code>的<code>setChildren:reactTags:</code>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// RCTUIManager.m</span><br><span class="line"></span><br><span class="line">RCT_EXPORT_METHOD(setChildren:(nonnull NSNumber *)containerTag</span><br><span class="line">reactTags:(NSArray&lt;NSNumber *&gt; *)reactTags)</span><br><span class="line">&#123;</span><br><span class="line">RCTSetChildren(containerTag, reactTags,</span><br><span class="line">(NSDictionary&lt;NSNumber *, id&lt;RCTComponent&gt;&gt; *)_shadowViewRegistry);</span><br><span class="line"></span><br><span class="line">[self addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary&lt;NSNumber *, UIView *&gt; *viewRegistry)&#123;</span><br><span class="line"></span><br><span class="line">RCTSetChildren(containerTag, reactTags,</span><br><span class="line">(NSDictionary&lt;NSNumber *, id&lt;RCTComponent&gt;&gt; *)viewRegistry);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[self _shadowViewDidReceiveUpdatedChildren:_shadowViewRegistry[containerTag]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void RCTSetChildren(NSNumber *containerTag,</span><br><span class="line">NSArray&lt;NSNumber *&gt; *reactTags,</span><br><span class="line">NSDictionary&lt;NSNumber *, id&lt;RCTComponent&gt;&gt; *registry)</span><br><span class="line">&#123;</span><br><span class="line">id&lt;RCTComponent&gt; container = registry[containerTag];</span><br><span class="line">NSInteger index = 0;</span><br><span class="line">for (NSNumber *reactTag in reactTags) &#123;</span><br><span class="line">id&lt;RCTComponent&gt; view = registry[reactTag];</span><br><span class="line">if (view) &#123;</span><br><span class="line">[container insertReactSubview:view atIndex:index++];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上图源码所示，<code>setChildren:reactTags:</code>分别针对<code>_shadowViewRegistry</code>以及<code>_viewRegistry</code>(在 UIBlock 中完成调用)调用了静态方法：<code>RCTSetChildren</code>。</p>
+<p>对于shadowView，最终会调用到<code>RCTShadowView#insertReactSubview:atIndex:</code>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// RCTShadowView.m</span><br><span class="line">- (void)insertReactSubview:(RCTShadowView *)subview atIndex:(NSInteger)atIndex</span><br><span class="line">&#123;</span><br><span class="line">RCTAssert(self.canHaveSubviews, @&quot;Attempt to insert subview inside leaf view.&quot;);</span><br><span class="line"></span><br><span class="line">[_reactSubviews insertObject:subview atIndex:atIndex];</span><br><span class="line">if (![self isYogaLeafNode]) &#123;</span><br><span class="line">YGNodeInsertChild(_yogaNode, subview.yogaNode, (uint32_t)atIndex);</span><br><span class="line">&#125;</span><br><span class="line">subview-&gt;_superview = self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在该方法中，做的最核心的事情莫过于在YGNode树中插入相应的子节点。</p>
+<p>对于view，最终会调用到<code>UIView+Rect</code>的<code>insertReactSubview:atIndex:</code>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// UIView+React.m</span><br><span class="line">- (void)insertReactSubview:(UIView *)subview atIndex:(NSInteger)atIndex</span><br><span class="line">&#123;</span><br><span class="line">// We access the associated object directly here in case someone overrides</span><br><span class="line">// the `reactSubviews` getter method and returns an immutable array.</span><br><span class="line">NSMutableArray *subviews = objc_getAssociatedObject(self, @selector(reactSubviews));</span><br><span class="line">if (!subviews) &#123;</span><br><span class="line">subviews = [NSMutableArray new];</span><br><span class="line">objc_setAssociatedObject(self, @selector(reactSubviews), subviews, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line">[subviews insertObject:subview atIndex:atIndex];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在该方法中，按照层级顺序(index)将subView 添加到AssociatedObject <code>reactSubviews</code>中，还是没有真正添加到视图层级树中！</p>
+<h1 id="Flush-UI-Block"><a href="#Flush-UI-Block" class="headerlink" title="Flush UI Block"></a>Flush UI Block</h1><p>上篇文章<a href="https://cloud.tencent.com/developer/article/1603371" target="_blank" rel="noopener">《一篇文章详解React Native初始化和通信机制》</a>中说过，为了避免JS to Native的频繁调用，所有的JS to Native的调用都不会立即执行，而是放到一个队列中等待Native调用。而UI操作都是先添加到UIManager-&gt;_pendingUIBlocks队列中。React Native执完一次批处理后会触发Native侧Executor的callNativeModule的调用（JS线程）。然后经由RCTCxxBridge调用到RCTUIManager的flushUIBlocksWithCompletion:（shadowQueue）。最后在flushUIBlocksWithCompletion:方法中会切换到主线程更新视图的属性。</p>
+<p>下面三张堆栈图完美的展现了触发UI的更新的顺序：</p>
+<ol>
+<li><p>显示native侧收到JS侧的调用，这个调用最先是RCTObjcExecutor（dev环境）收到的，然后经由JSToNativeBridge转发给RCTInstanceCallback。这些操作都是在JS线程执行的。<br><img src="https://upload-images.jianshu.io/upload_images/1055199-01a3463681419570.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="JS线程调用JSToNativeBridge::callNativeModules"></p>
+</li>
+<li><p>RCTInstanceCallback通过成员变量bridge_将调用转发给RCTCxxBridge，然后转发给RCTUIManger。这些操作都是在shadowQueue中执行的。<br><img src="https://upload-images.jianshu.io/upload_images/1055199-74fe10046dabf0cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="shadowQueue中flushUIBlocks"></p>
+</li>
+<li><p>最后flushUIBlocksWithCompletion:中切换到主线程挨个执行_pendingUIBlocks中的block。<br><img src="https://upload-images.jianshu.io/upload_images/1055199-d42ba2d4b4a0e578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UI线程更新视图"></p>
+</li>
+</ol>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://zxfcumtcs.github.io/2018/02/03/RNRendering/" target="_blank" rel="noopener">https://zxfcumtcs.github.io/2018/02/03/RNRendering/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/32749940" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/32749940</a></p>
+<p>​
+​<br>​</p>
+
+        
+    </section>
+</article>
+
+
+
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "7fbe80427f54741e289f",
+        clientSecret: "f34ed5fd92e54c9000bd37ba951948cb939deff5",
+        repo: "wsv587.github.io",
+        owner: "wsv587",
+        admin: ["wsv587"],
+        id: "2020/05/23/详解ReactNative渲染原理",
+        distractionFreeMode: true,
+        title: "详解ReactNative渲染原理",
+        body: "http://yoursite.com/2020/05/23/详解ReactNative渲染原理/",
+        labels: ["iOS","ReactNative"]
+    }).render('comments');
+    </script>
+</div>
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e4027971a230b210f4671f485b33846a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+            
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp();
+            }, 3000);
+        }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>

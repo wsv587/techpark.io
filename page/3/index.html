@@ -124,6 +124,50 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2019/06/07/NSUserDefaults和Xcode启动传参/">NSUserDefaults和Xcode启动传参</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/page/3/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-07T07:47:17.000Z" itemprop="datePublished">2019-06-07</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/NSUserDefaults/">NSUserDefaults</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/调试/">调试</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>NSUserDefaults作为iOS內建的存储机制早已为大家所熟知。NSUserDefaults在少量数据持久化和用户偏好存储方面一直发挥着重大的作用。对于NSUserDefaults的常见用法应该是无外乎存取数据。相比较NSUserDefaults，Xcode中的环境变量就比较陌生。有时候，从头到尾开发一款APP也不一定会用到环境变量。而实际上NSUserDefaults和环境变量存在着千丝万缕的关系。本篇文章将会揭开二者的内在联系。</p>
+<h2 id="NSUserDefaults"><a href="#NSUserDefaults" class="headerlink" title="NSUserDefaults"></a>NSUserDefaults</h2><p>NSUserDefaults的常见用法，如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] setObject:@(<span class="number">1</span>) forKey:<span class="string">@"isVip"</span>];</span><br><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] objectForKey:<span class="string">@"isVip"</span>];</span><br></pre></td></tr></table></figure>
+        
+        <p class="article-more-link">
+            <a href="/2019/06/07/NSUserDefaults和Xcode启动传参/#more">
+                <span class="vm">阅读更多</span>
+                <i class="icon-arrow-double-right vm"></i>    
+            </a>
+        </p>
+        
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2019/06/07/iOS事件传递响应机制/">iOS事件传递响应机制</a>
         </h1>
         
