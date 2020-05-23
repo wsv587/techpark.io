@@ -124,6 +124,58 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2020/05/23/一份走心的runloop源码分析/">一份走心的runloop源码分析</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2020-05-23T11:32:08.000Z" itemprop="datePublished">2020-05-23</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag"></i>
+    <a class="article-tag-link" href="/tags/iOS/">iOS</a>, <a class="article-tag-link" href="/tags/runloop/">runloop</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对iOS开发者而言，runloop是一个老生常谈的话题，但凡是iOS开发者，在工作中必然直接或间接的接触过runloop。而对于面试者而言，runloop又几乎是必考点。在几年前，笔者写过一篇文章<a href="https://www.cnblogs.com/wsnb/p/4753685.html" target="_blank" rel="noopener">NSRunLoop</a>，对runloop原理以及应用场景做了基本介绍。但是当时也是道听途说，简单的翻看了源码的do…while循环，并没有深入源码。所以，本文将从源码的角度剖析runloop的组成，强化自己对runloop的认识，验证我们脑海中一直以来似懂非懂的原理，真心希望这篇文章能够帮助到大家。</p>
+<blockquote>
+<p>注意：为了减少篇幅、避免困惑，本篇文章贴出的源码稍有精简，比如去除了lock和windows的代码。</p>
+</blockquote>
+<h1 id="为什么是runLoop"><a href="#为什么是runLoop" class="headerlink" title="为什么是runLoop"></a>为什么是runLoop</h1><p>runloop顾名思义就是”跑圈“，所谓跑圈就给人一种循环的感觉。runloop运行的核心代码就是一个有状态的do…while循环。每循环一次就相当于跑了一圈，线程就会对当前这一圈里面产生的事件进行处理。那么为什么线程要有runloop呢？其实我们的APP可以理解为是靠event驱动的（包括iOS和Android应用）。我们触摸屏幕、网络回调等都是一个个的event，也就是事件。这些事件产生之后会分发给我们的APP，APP接收到事件之后分发给对应的线程。通常情况下，如果线程没有runloop，那么一个线程一次只能执行一个任务，执行完成后线程就会退出。要想APP的线程一直能够处理事件或者等待事件（比如异步事件），就要保活线程，也就是不能让线程早早的退出，此时runloop就派上用场了。我们已经说了，runloop本质上就是一个有状态的do…while循环，所以只要不是超时或者故意退出状态，那么runLoop就会一直执行do…while，所以可以保证线程不退出。其实也不是必须要给线程指定一个runloop，如果需要我们线程能够持续的处理事件，那么就需要给线程绑定一个runloop。也就是说，runloop能够保证线程一直可以一直处理事件。所以runloop的作用可以理解为：</p>
+<ul>
+<li>使程序一直运行并处理各种事件。这些事件包括但不限于用户操作、定时器任务、内核消息</li>
+<li>有顺序的处理各种Event。因为runLoop有状态，可以决定线程在什么时候处理什么事件</li>
+<li>节省CPU资源。通常情况下，事件并不是永无休止的产生，所以也就没必要让线程永无休止的运行。runloop可以在无事件处理时进入休眠状态，避免无休止的do…while跑空圈。</li>
+</ul>
+<p>不得不重复那句老生常谈的话：一个线程对应一个RunLoop，程序运行是主线程的RunLoop默认启动，子线程的RunLoop按需启动（调用run方法）。runloop是线程的事件管理者，或者说是线程的事件管家，他会按照顺序管理线程要处理的事件，决定哪些事件在什么时候提交给主线程处理。</p>
+        
+        <p class="article-more-link">
+            <a href="/2020/05/23/一份走心的runloop源码分析/#more">
+                <span class="vm">阅读更多</span>
+                <i class="icon-arrow-double-right vm"></i>    
+            </a>
+        </p>
+        
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2020/05/23/详解ReactNative渲染原理/">详解ReactNative渲染原理</a>
         </h1>
         
@@ -499,48 +551,6 @@
         
         <p class="article-more-link">
             <a href="/2019/06/13/cocoapods发布三方框架-实战篇/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/06/11/cocoapods发布三方框架-理论篇/">cocoapods发布三方框架-理论篇</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="http://yoursite.com/categories/iOS/index.html">
-    
-    <i class="icon-calendar"></i>
-    
-    <time datetime="2019-06-11T14:55:24.000Z" itemprop="datePublished">2019-06-11</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag"></i>
-    <a class="article-tag-link" href="/tags/cocoapods/">cocoapods</a>, <a class="article-tag-link" href="/tags/iOS/">iOS</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果在开发iOS项目中使用过cocoapods，那么你肯定接触过一些知名的三方框架，比如AFNetworking、SDWebImage。其中的源码自不必说，你肯定或多或少的了解过维护这些基础库的开发者是如何发布这些框架的。如果你对如何发布一个框架到cocoapods还不是非常了解，那么本篇文章将值得一读！</p>
-        
-        <p class="article-more-link">
-            <a href="/2019/06/11/cocoapods发布三方框架-理论篇/#more">
                 <span class="vm">阅读更多</span>
                 <i class="icon-arrow-double-right vm"></i>    
             </a>
